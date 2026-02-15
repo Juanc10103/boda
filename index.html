@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fede & Lore - Nuestra Boda</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@200;300;400;600&family=Alex+Brush&display=swap" rel="stylesheet">
+
+  <!-- Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    :root{
+      /* 🎨 Paleta inspirada en la referencia (azul clásico + blanco cálido) */
+      --blue-900:#0B1F3A;
+      --blue-800:#12325B;
+      --blue-700:#1E4C86;
+      --blue-500:#3E73B8;
+      --blue-200:#DDE8F8;
+
+      --paper:#FBF8F2;     /* blanco cálido */
+      --ink:#1E2A3A;
+      --muted:#657184;
+
+      --line: rgba(18,50,91,.14);
+      --shadow: 0 14px 40px rgba(11,31,58,.08);
+      --transition: all .9s cubic-bezier(.22,1,.36,1);
+
+      --radius: 18px;
+      --max: 960px;
+    }
+
+    *{ margin:0; padding:0; box-sizing:border-box; }
+    html{ scroll-behavior:smooth; }
+    body{
+      font-family:'Montserrat',sans-serif;
+      color:var(--ink);
+      background: var(--paper);
+      overflow-x:hidden;
+      line-height:1.75;
+    }
+
+    h1,h2,h3,.serif{ font-family:'Playfair Display',serif; font-weight:400; }
+    .script{ font-family:'Alex Brush',cursive; }
+    a{ color:inherit; }
+
+    .container{
+      width:min(90%, var(--max));
+      margin:0 auto;
+      position:relative;
+    }
+
+    /* ====== DECOR (flores lineales + papel) ====== */
+    .paper{
+      background: rgba(255,255,255,.72);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      position:relative;
+      overflow:hidden;
+    }
+
+    .paper::before{
+      content:"";
+      position:absolute; inset:0;
+      background:
+        radial-gradient(circle at 10% 15%, rgba(221,232,248,.45), transparent 45%),
+        radial-gradient(circle at 80% 25%, rgba(221,232,248,.35), transparent 50%),
+        radial-gradient(circle at 30% 85%, rgba(221,232,248,.28), transparent 45%);
+      pointer-events:none;
+      opacity:.75;
+    }
+
+    /* Flores (SVG inline simple) */
+    .floral{
+      position:absolute;
+      width:140px;
+      height:140px;
+      opacity:.85;
+      pointer-events:none;
+      filter: drop-shadow(0 10px 18px rgba(11,31,58,.10));
+    }
+    .floral.top-left{ top:-30px; left:-30px; transform:rotate(-8deg); }
+    .floral.bottom-right{ bottom:-30px; right:-30px; transform:rotate(14deg); opacity:.75; }
+    .floral svg{ width:100%; height:100%; }
+    .floral path, .floral circle, .floral line{
+      stroke: var(--blue-700);
+      stroke-width: 2;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* Separador “papel rasgado” */
+    .torn{
+      position:relative;
+      padding: 90px 0;
+    }
+    .torn::before, .torn::after{
+      content:"";
+      position:absolute;
+      left:0; right:0;
+      height:58px;
+      background-repeat:no-repeat;
+      background-size:cover;
+      pointer-events:none;
+      opacity:1;
+    }
+    .torn::before{
+      top:-1px;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 60'%3E%3Cpath d='M0,35 C90,20 140,55 240,40 C340,25 420,58 520,42 C620,26 710,54 820,38 C930,22 1000,55 1200,35 L1200,0 L0,0 Z' fill='%23FBF8F2'/%3E%3C/svg%3E");
+    }
+    .torn::after{
+      bottom:-1px;
+      transform:rotate(180deg);
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 60'%3E%3Cpath d='M0,35 C90,20 140,55 240,40 C340,25 420,58 520,42 C620,26 710,54 820,38 C930,22 1000,55 1200,35 L1200,0 L0,0 Z' fill='%23FBF8F2'/%3E%3C/svg%3E");
+    }
+
+    .divider{
+      width: 70px;
+      height: 1px;
+      background: var(--blue-700);
+      margin: 18px auto 26px;
+      opacity:.7;
+      position:relative;
+    }
+    .divider::after{
+      content:"✦";
+      position:absolute;
+      top:50%; left:50%;
+      transform:translate(-50%,-50%);
+      background: var(--paper);
+      padding:0 10px;
+      color: var(--blue-700);
+      font-size: 10px;
+    }
+
+    /* ====== ANIMACIONES ====== */
+    .reveal{
+      opacity:0;
+      transform: translateY(28px);
+      transition: var(--transition);
+      will-change: opacity, transform;
+    }
+    .reveal.active{
+      opacity:1;
+      transform: translateY(0);
+    }
+    .stagger > *{
+      opacity:0;
+      transform: translateY(18px);
+      transition: var(--transition);
+    }
+    .stagger.active > *{
+      opacity:1;
+      transform:none;
+    }
+    .stagger.active > *:nth-child(1){ transition-delay:.05s;}
+    .stagger.active > *:nth-child(2){ transition-delay:.12s;}
+    .stagger.active > *:nth-child(3){ transition-delay:.19s;}
+    .stagger.active > *:nth-child(4){ transition-delay:.26s;}
+    .stagger.active > *:nth-child(5){ transition-delay:.33s;}
+
+    /* ====== BOTONES editorial ====== */
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding: 13px 22px;
+      border-radius: 999px;
+      text-decoration:none;
+      font-size:.72rem;
+      text-transform:uppercase;
+      letter-spacing:2.5px;
+      border:1px solid var(--blue-800);
+      transition: var(--transition);
+      cursor:pointer;
+      user-select:none;
+      white-space:nowrap;
+      background: transparent;
+      color: var(--blue-800);
+    }
+    .btn:hover{
+      background: var(--blue-800);
+      color:#fff;
+      transform: translateY(-2px);
+    }
+    .btn.fill{
+      background: var(--blue-800);
+      color:#fff;
+    }
+    .btn.fill:hover{
+      background: var(--blue-700);
+      border-color: var(--blue-700);
+    }
+
+    /* ====== MUSIC BTN ====== */
+    .music-btn{
+      position:fixed;
+      bottom:22px;
+      right:18px;
+      width:52px;
+      height:52px;
+      border-radius:50%;
+      background: rgba(255,255,255,.88);
+      border: 1px solid var(--line);
+      box-shadow: 0 10px 24px rgba(11,31,58,.12);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      z-index:999;
+      cursor:pointer;
+      color: var(--blue-800);
+      backdrop-filter: blur(8px);
+    }
+
+    /* ====== HERO ====== */
+    #hero{
+      min-height: 100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 22px 0 70px;
+      position:relative;
+      background:
+        radial-gradient(circle at 20% 10%, rgba(221,232,248,.65), transparent 45%),
+        radial-gradient(circle at 70% 25%, rgba(221,232,248,.55), transparent 55%),
+        var(--paper);
+    }
+
+    .hero-card{
+      width:min(92%, 520px);
+      padding: 24px;
+    }
+
+    .hero-photo{
+      border-radius: 22px;
+      overflow:hidden;
+      border: 1px solid var(--line);
+      position:relative;
+      aspect-ratio: 3/4;
+      background:#fff;
+    }
+    .hero-photo img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      filter: contrast(1.02) saturate(1.03);
+      transform: scale(1.05);
+      animation: slowZoom 16s infinite alternate;
+    }
+    @keyframes slowZoom{
+      from{ transform: scale(1.03); }
+      to{ transform: scale(1.12); }
+    }
+
+    .hero-top{
+      margin-top: 14px;
+      text-align:center;
+      color: var(--blue-800);
+      text-transform:uppercase;
+      letter-spacing: 4px;
+      font-size:.68rem;
+    }
+
+    .hero-names{
+      text-align:center;
+      margin-top: 8px;
+      color: var(--blue-900);
+      font-size: 2.4rem;
+      line-height:1.05;
+    }
+    .hero-names span{
+      display:block;
+      font-size: 1.05rem;
+      font-family:'Montserrat',sans-serif;
+      font-weight:300;
+      letter-spacing: 2px;
+      margin: 6px 0 2px;
+      color: var(--muted);
+      text-transform:uppercase;
+    }
+
+    .hero-date{
+      text-align:center;
+      margin-top: 10px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      font-size:.8rem;
+      color: var(--blue-800);
+      letter-spacing:2px;
+      text-transform:uppercase;
+    }
+    .chip{
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.7);
+    }
+
+    .hero-quote{
+      margin-top: 14px;
+      text-align:center;
+      color: var(--muted);
+      font-style: italic;
+      font-family:'Playfair Display',serif;
+      font-size: 1.02rem;
+      padding: 0 10px;
+    }
+
+    .scroll-hint{
+      position:absolute;
+      bottom: 18px;
+      left:50%;
+      transform:translateX(-50%);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:6px;
+      opacity:.9;
+      color: var(--blue-800);
+      font-size:.72rem;
+      letter-spacing:2px;
+      text-transform:uppercase;
+    }
+    .scroll-hint .arrow{
+      width: 28px;
+      height: 28px;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      animation: bounce 1.8s infinite;
+      background: rgba(255,255,255,.6);
+    }
+    @keyframes bounce{
+      0%,100%{ transform: translateY(0); }
+      50%{ transform: translateY(6px); }
+    }
+
+    /* ====== COUNTDOWN ====== */
+    #countdown{
+      padding: 70px 0 30px;
+      text-align:center;
+    }
+    .count-circle{
+      width: min(92%, 420px);
+      margin: 0 auto;
+      padding: 26px 18px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.75);
+      border:1px solid var(--line);
+      box-shadow: var(--shadow);
+      position:relative;
+    }
+    .count-circle h3{
+      font-size: 1.2rem;
+      color: var(--blue-900);
+    }
+    .count-grid{
+      margin-top: 12px;
+      display:grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+    .count-item{
+      padding: 10px 6px;
+      border-radius: 14px;
+      border: 1px solid rgba(18,50,91,.10);
+      background: rgba(251,248,242,.55);
+    }
+    .count-item span{
+      display:block;
+      font-family:'Playfair Display',serif;
+      font-size: 1.45rem;
+      color: var(--blue-800);
+      line-height:1;
+    }
+    .count-item label{
+      display:block;
+      margin-top: 4px;
+      font-size:.62rem;
+      letter-spacing:2px;
+      text-transform:uppercase;
+      color: var(--muted);
+    }
+
+    /* ====== EVENTS / VENUES ====== */
+    #venues{
+      padding: 70px 0;
+    }
+    .section-title{
+      text-align:center;
+      margin-bottom: 22px;
+    }
+    .section-title .small{
+      text-transform:uppercase;
+      letter-spacing:4px;
+      font-size:.68rem;
+      color: var(--blue-700);
+    }
+    .section-title h2{
+      font-size: 2.2rem;
+      color: var(--blue-900);
+      margin-top: 8px;
+    }
+
+    .cards{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      margin-top: 18px;
+    }
+    .card{
+      padding: 22px 18px;
+    }
+    .card-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+    }
+    .badge{
+      font-size:.65rem;
+      text-transform:uppercase;
+      letter-spacing:3px;
+      color: var(--blue-700);
+    }
+    .icon-circle{
+      width: 54px;
+      height: 54px;
+      border-radius:50%;
+      border: 1px solid var(--line);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background: rgba(255,255,255,.70);
+      color: var(--blue-800);
+      flex: 0 0 auto;
+    }
+    .card h3{
+      font-size: 1.8rem;
+      color: var(--blue-900);
+      margin-top: 8px;
+    }
+    .meta{
+      margin-top: 8px;
+      color: var(--muted);
+      font-size:.95rem;
+    }
+    .place{
+      font-family:'Playfair Display',serif;
+      color: var(--blue-800);
+      font-size: 1.15rem;
+      margin-top: 10px;
+    }
+    .actions{
+      margin-top: 16px;
+      display:flex;
+      flex-wrap:wrap;
+      gap: 10px;
+      justify-content:center;
+    }
+
+    /* ====== DETAILS (Music / Dress / Tips) ====== */
+    #details{
+      padding: 0 0 70px;
+    }
+    .detail-grid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+      margin-top: 10px;
+    }
+    .detail-card{
+      padding: 18px 16px;
+      text-align:center;
+    }
+    .detail-card h4{
+      font-family:'Playfair Display',serif;
+      font-size: 1.35rem;
+      color: var(--blue-900);
+      margin-top: 10px;
+    }
+    .detail-card p{
+      margin-top: 10px;
+      color: var(--muted);
+      font-size:.92rem;
+    }
+    .palette{
+      display:flex;
+      gap: 10px;
+      justify-content:center;
+      margin-top: 14px;
+    }
+    .dot{
+      width: 18px;
+      height: 18px;
+      border-radius:50%;
+      border: 1px solid rgba(18,50,91,.18);
+    }
+
+    /* ====== GALLERY ====== */
+    #gallery{
+      padding: 70px 0;
+      background: #fff;
+      border-top: 1px solid rgba(18,50,91,.08);
+      border-bottom: 1px solid rgba(18,50,91,.08);
+    }
+    .gallery-wrap{
+      margin-top: 18px;
+    }
+
+    /* Mobile slider (scroll-snap) */
+    .gallery-snap{
+      display:grid;
+      grid-auto-flow: column;
+      grid-auto-columns: 78%;
+      gap: 12px;
+      overflow-x:auto;
+      scroll-snap-type: x mandatory;
+      padding: 6px 2px 12px;
+      -webkit-overflow-scrolling: touch;
+    }
+    .gallery-snap::-webkit-scrollbar{ height: 8px; }
+    .gallery-snap::-webkit-scrollbar-thumb{ background: rgba(18,50,91,.18); border-radius: 999px; }
+    .g-item{
+      scroll-snap-align: center;
+      border-radius: 20px;
+      overflow:hidden;
+      border: 1px solid rgba(18,50,91,.12);
+      background:#fff;
+      box-shadow: 0 10px 24px rgba(11,31,58,.08);
+      aspect-ratio: 3/4;
+    }
+    .g-item img{ width:100%; height:100%; object-fit:cover; }
+
+    /* Desktop grid */
+    .gallery-grid{
+      display:none;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 12px;
+    }
+    .gallery-grid .g-item{ aspect-ratio: 1/1; }
+
+    /* ====== RSVP / GIFTS ====== */
+    #gift-rsvp{
+      padding: 0;
+      background: var(--paper);
+    }
+    .rsvp-block{
+      padding: 80px 0;
+    }
+    .rsvp-inner{
+      padding: 26px 18px;
+      text-align:center;
+    }
+    .rsvp-inner h2{
+      font-size: 2.2rem;
+      color: var(--blue-900);
+    }
+    .rsvp-inner .lead{
+      margin: 10px auto 0;
+      max-width: 520px;
+      color: var(--muted);
+      font-size:.95rem;
+    }
+    .gift-box{
+      margin: 18px auto 0;
+      display:inline-block;
+      padding: 16px 16px;
+      border: 1px dashed rgba(18,50,91,.25);
+      border-radius: 16px;
+      background: rgba(255,255,255,.7);
+    }
+    .gift-box .label{
+      font-size: .65rem;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: var(--blue-700);
+    }
+    .gift-box .alias{
+      font-family:'Playfair Display',serif;
+      font-size: 1.25rem;
+      color: var(--blue-900);
+      margin: 8px 0 2px;
+    }
+    .gift-box .note{
+      font-size:.82rem;
+      color: var(--muted);
+    }
+
+    /* ====== HASHTAG / IG ====== */
+    #hashtag{
+      padding: 80px 0;
+      position:relative;
+      overflow:hidden;
+      background:
+        linear-gradient(to bottom, rgba(251,248,242,.92), rgba(251,248,242,.92)),
+        url("https://images.unsplash.com/photo-1529634806980-85c3dd6d34ac?auto=format&fit=crop&q=80&w=1600") center/cover no-repeat;
+    }
+    .hashtag-inner{
+      text-align:center;
+      padding: 28px 18px;
+    }
+    .hashtag-inner h2{
+      font-size: 2rem;
+      color: var(--blue-900);
+    }
+    .hashtag-inner p{
+      margin-top: 8px;
+      color: var(--muted);
+    }
+    .tag{
+      margin-top: 18px;
+      font-size: 2.6rem;
+      color: var(--blue-800);
+      font-family:'Playfair Display',serif;
+      letter-spacing: 1px;
+    }
+
+    /* ====== FOOTER LINKS ====== */
+    footer{
+      padding: 34px 0 70px;
+      background: var(--paper);
+    }
+    .footer-inner{
+      display:flex;
+      flex-direction:column;
+      gap: 18px;
+      align-items:center;
+      text-align:center;
+    }
+    .footer-name{
+      font-size: 2.2rem;
+      color: var(--blue-900);
+    }
+    .footer-links{
+      display:grid;
+      gap: 10px;
+      width: min(92%, 520px);
+    }
+    .footer-links a{
+      text-decoration:none;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(18,50,91,.12);
+      background: rgba(255,255,255,.7);
+      color: var(--blue-800);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: .67rem;
+      transition: var(--transition);
+    }
+    .footer-links a:hover{
+      transform: translateY(-2px);
+      background: rgba(221,232,248,.55);
+    }
+
+    /* ====== RESPONSIVE ====== */
+    @media (min-width: 768px){
+      .hero-card{ width: min(92%, 640px); padding: 30px; }
+      .hero-names{ font-size: 3.4rem; }
+      .cards{ grid-template-columns: 1fr 1fr; gap: 18px; }
+      .detail-grid{ grid-template-columns: repeat(3, 1fr); }
+      .gallery-snap{ display:none; }
+      .gallery-grid{ display:grid; }
+      .footer-links{ grid-template-columns: 1fr 1fr; }
+    }
+    @media (min-width: 1024px){
+      #hero{ padding-bottom: 90px; }
+      .hero-card{ width: min(92%, 720px); }
+      .hero-names{ font-size: 3.9rem; }
+      .section-title h2{ font-size: 2.55rem; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Audio Player -->
+  <audio id="wedding-music" loop>
+    <!-- Poné tu mp3 -->
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg">
+  </audio>
+
+  <div class="music-btn" onclick="toggleMusic()" aria-label="Música">
+    <i data-lucide="music"></i>
+  </div>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="container">
+      <div class="hero-card paper reveal">
+        <!-- flores -->
+        <div class="floral top-left" aria-hidden="true">
+          <svg viewBox="0 0 160 160">
+            <path d="M30 110c25-15 35-40 40-70"/>
+            <path d="M70 40c8 20 22 35 48 45"/>
+            <path d="M35 115c18-2 32 6 45 20"/>
+            <circle cx="70" cy="40" r="6"/>
+            <circle cx="118" cy="85" r="5"/>
+            <circle cx="80" cy="130" r="5"/>
+            <path d="M52 86c10 6 18 6 28 0"/>
+            <path d="M95 62c6 12 12 18 24 22"/>
+          </svg>
+        </div>
+
+        <div class="hero-photo">
+          <!-- Cambiá por tu foto -->
+          <img src="https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&q=80&w=1400" alt="Fede y Lore">
+        </div>
+
+        <div class="hero-top">THE WEDDING OF</div>
+        <h1 class="hero-names serif">Federico <span>&</span> Lorena</h1>
+        <div class="divider"></div>
+
+        <div class="hero-date">
+          <span class="chip">MAY</span>
+          <span class="chip">15</span>
+          <span class="chip">2026</span>
+        </div>
+
+        <p class="hero-quote">“Cuando sea el tiempo correcto, lo haré posible.”</p>
+
+        <!-- flores -->
+        <div class="floral bottom-right" aria-hidden="true">
+          <svg viewBox="0 0 160 160">
+            <path d="M130 40c-25 15-35 40-40 70"/>
+            <path d="M90 110c-8-20-22-35-48-45"/>
+            <path d="M125 35c-18 2-32-6-45-20"/>
+            <circle cx="90" cy="110" r="6"/>
+            <circle cx="42" cy="65" r="5"/>
+            <circle cx="80" cy="30" r="5"/>
+            <path d="M108 64c-10-6-18-6-28 0"/>
+            <path d="M65 88c-6-12-12-18-24-22"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="scroll-hint" aria-hidden="true">
+      <div class="arrow"><i data-lucide="chevron-down"></i></div>
+      <div>Scroll</div>
+    </div>
+  </section>
+
+  <!-- COUNTDOWN -->
+  <section id="countdown">
+    <div class="container">
+      <div class="count-circle reveal">
+        <h3 class="serif">Falta</h3>
+        <div class="count-grid">
+          <div class="count-item"><span id="days">00</span><label>Días</label></div>
+          <div class="count-item"><span id="hours">00</span><label>Hs</label></div>
+          <div class="count-item"><span id="minutes">00</span><label>Min</label></div>
+          <div class="count-item"><span id="seconds">00</span><label>Seg</label></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VENUES / EVENTS -->
+  <section id="venues" class="torn">
+    <div class="container">
+      <div class="section-title reveal">
+        <div class="small">THE VENUES</div>
+        <h2>Ceremonia & Recepción</h2>
+        <div class="divider"></div>
+      </div>
+
+      <div class="cards">
+        <!-- Ceremonia -->
+        <article class="card paper reveal">
+          <div class="card-head">
+            <div>
+              <div class="badge">CEREMONY</div>
+              <h3>Ceremonia</h3>
+            </div>
+            <div class="icon-circle"><i data-lucide="rings"></i></div>
+          </div>
+
+          <p class="meta"><strong>Día:</strong> Sábado 15 de Mayo - 17:00hs</p>
+          <p class="place">Parroquia Nuestra Señora de Luján</p>
+          <p class="meta">Av. Pergamino 203 - BsAs</p>
+
+          <div class="actions">
+            <a class="btn" href="#" target="_blank" rel="noopener">Agendar</a>
+            <a class="btn fill" href="#rsvp">Confirmar asistencia</a>
+            <a class="btn" href="https://maps.google.com/?q=Parroquia+Nuestra+Se%C3%B1ora+de+Lujan" target="_blank" rel="noopener">¿Cómo llegar?</a>
+          </div>
+        </article>
+
+        <!-- Fiesta -->
+        <article class="card paper reveal">
+          <div class="card-head">
+            <div>
+              <div class="badge">RECEPTION</div>
+              <h3>Fiesta</h3>
+            </div>
+            <div class="icon-circle"><i data-lucide="party-popper"></i></div>
+          </div>
+
+          <p class="meta"><strong>Día:</strong> Sábado 15 de Mayo - 20:00hs</p>
+          <p class="place">Salón de Fiestas Avril</p>
+          <p class="meta">Av. Los Reartes 12 - BsAs</p>
+
+          <div class="actions">
+            <a class="btn" href="#" target="_blank" rel="noopener">Agendar</a>
+            <a class="btn fill" href="#rsvp">Confirmar asistencia</a>
+            <a class="btn" href="https://maps.google.com/?q=Salon+de+fiestas+Avril" target="_blank" rel="noopener">¿Cómo llegar?</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- DETAILS -->
+  <section id="details">
+    <div class="container">
+      <div class="section-title reveal">
+        <div class="small">THE DETAILS</div>
+        <h2>Detalles de la Fiesta</h2>
+        <div class="divider"></div>
+      </div>
+
+      <div class="detail-grid">
+        <div class="detail-card paper reveal">
+          <div class="icon-circle" style="margin:0 auto;"><i data-lucide="music-2"></i></div>
+          <h4>Música</h4>
+          <p>¿Cuál es la canción que no puede faltar en la playlist?</p>
+          <div class="actions" style="margin-top:12px;">
+            <a class="btn fill" href="#" target="_blank" rel="noopener">Sugerir canción</a>
+          </div>
+        </div>
+
+        <div class="detail-card paper reveal">
+          <div class="icon-circle" style="margin:0 auto;"><i data-lucide="shirt"></i></div>
+          <h4>Dress Code</h4>
+          <p>Formal / elegante. Sentite cómodo, pero con estilo ✨</p>
+          <div class="actions" style="margin-top:12px;">
+            <a class="btn" href="#" target="_blank" rel="noopener">Ver más</a>
+          </div>
+        </div>
+
+        <div class="detail-card paper reveal">
+          <div class="icon-circle" style="margin:0 auto;"><i data-lucide="palette"></i></div>
+          <h4>Paleta</h4>
+          <p>Inspiración azul clásico y tonos suaves como la invitación.</p>
+          <div class="palette" aria-label="Paleta de colores">
+            <span class="dot" style="background:var(--blue-900)"></span>
+            <span class="dot" style="background:var(--blue-800)"></span>
+            <span class="dot" style="background:var(--blue-500)"></span>
+            <span class="dot" style="background:var(--blue-200)"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section id="gallery">
+    <div class="container">
+      <div class="section-title reveal">
+        <div class="small">GALLERY</div>
+        <h2>Retratos de Nuestro Amor</h2>
+        <div class="divider"></div>
+      </div>
+
+      <div class="gallery-wrap reveal">
+        <!-- Slider mobile -->
+        <div class="gallery-snap" aria-label="Galería (deslizar)">
+          <div class="g-item"><img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&q=80&w=900" alt="Foto 1"></div>
+          <div class="g-item"><img src="https://images.unsplash.com/photo-1465495910483-04504d58039a?auto=format&fit=crop&q=80&w=900" alt="Foto 2"></div>
+          <div class="g-item"><img src="https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&q=80&w=900" alt="Foto 3"></div>
+          <div class="g-item"><img src="https://images.unsplash.com/photo-1529634806980-85c3dd6d34ac?auto=format&fit=crop&q=80&w=900" alt="Foto 4"></div>
+        </div>
+
+        <!-- Grid desktop -->
+        <div class="gallery-grid" aria-label="Galería (grid)">
+          <div class="g-item"><img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&q=80&w=900" alt="Foto 1"></div>
+          <div class="g-item"><img src="https://images.unsplash.com/photo-1465495910483-04504d58039a?auto=format&fit=crop&q=80&w=900" alt="Foto 2"></div>
+          <div class="g-item"><img src="https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&q=80&w=900" alt="Foto 3"></div>
+          <div class="g-item"><img src="https://images.unsplash.com/photo-1529634806980-85c3dd6d34ac?auto=format&fit=crop&q=80&w=900" alt="Foto 4"></div>
+          <div class="g-item"><img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=900" alt="Foto 5"></div>
+          <div class="g-item"><img src="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&q=80&w=900" alt="Foto 6"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RSVP + GIFTS -->
+  <section id="gift-rsvp">
+    <div id="rsvp" class="rsvp-block torn">
+      <div class="container">
+        <div class="rsvp-inner paper reveal">
+          <div class="section-title" style="margin-bottom:12px;">
+            <div class="small">R.S.V.P</div>
+            <h2>¿Nos acompañás?</h2>
+            <div class="divider"></div>
+          </div>
+
+          <p class="lead">Por favor, confirmá tu asistencia antes del <strong>15 de Abril</strong>.</p>
+
+          <div class="actions" style="margin-top:16px;">
+            <!-- Reemplazá por tu link real (form/whatsapp) -->
+            <a class="btn fill" href="https://wa.me/5490000000000?text=Hola!%20Confirmo%20mi%20asistencia%20a%20la%20boda%20💙" target="_blank" rel="noopener">
+              Confirmar por WhatsApp
+            </a>
+            <a class="btn" href="#" target="_blank" rel="noopener">Confirmar en formulario</a>
+          </div>
+
+          <div style="height:18px"></div>
+
+          <h3 class="serif" style="color:var(--blue-900); font-size:1.6rem;">Regalos</h3>
+          <p class="lead">Tu presencia es nuestro mejor regalo. Si querés ayudarnos con la luna de miel:</p>
+
+          <div class="gift-box">
+            <div class="label">CBU / Alias</div>
+            <div class="alias">FEDE.LORE.BODA</div>
+            <div class="note">Banco — Cta 123456/7</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HASHTAG / IG -->
+  <section id="hashtag">
+    <div class="container">
+      <div class="hashtag-inner paper reveal">
+        <div class="icon-circle" style="margin:0 auto;"><i data-lucide="instagram"></i></div>
+        <h2 class="serif" style="margin-top:12px;">Compartimos este día junto a vos</h2>
+        <p>Compartí tus fotos y videos usando nuestro hashtag</p>
+
+        <div class="tag">#fedeylore</div>
+
+        <div class="actions" style="margin-top:14px;">
+          <!-- Reemplazá por tu link real -->
+          <a class="btn fill" href="#" target="_blank" rel="noopener">Ver en Instagram</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner reveal">
+        <div class="footer-name script">Fede & Lore</div>
+
+        <div class="footer-links">
+          <a href="#rsvp">Confirmar asistencia a ceremonia</a>
+          <a href="#rsvp">Confirmar asistencia a fiesta</a>
+          <a href="#details">Sugerir canción</a>
+          <a href="#venues">Agendar ceremonia</a>
+          <a href="#venues">Agendar fiesta</a>
+        </div>
+
+        <div style="color:var(--muted); font-size:.78rem; letter-spacing:1px;">
+          Mayo 15, 2026 • Hecho con 💙
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Icons
+    lucide.createIcons();
+
+    // ===== Countdown =====
+    const weddingDate = new Date('May 15, 2026 17:00:00').getTime();
+
+    function pad2(n){ return n < 10 ? '0' + n : '' + n; }
+
+    function updateCountdown(){
+      const now = new Date().getTime();
+      const distance = weddingDate - now;
+
+      const days = Math.max(0, Math.floor(distance / (1000*60*60*24)));
+      const hours = Math.max(0, Math.floor((distance % (1000*60*60*24)) / (1000*60*60)));
+      const minutes = Math.max(0, Math.floor((distance % (1000*60*60)) / (1000*60)));
+      const seconds = Math.max(0, Math.floor((distance % (1000*60)) / 1000));
+
+      document.getElementById('days').innerText = pad2(days);
+      document.getElementById('hours').innerText = pad2(hours);
+      document.getElementById('minutes').innerText = pad2(minutes);
+      document.getElementById('seconds').innerText = pad2(seconds);
+    }
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+
+    // ===== Reveal animations =====
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          entry.target.classList.add('active');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal, .stagger').forEach(el => observer.observe(el));
+
+    // ===== Music control =====
+    let isPlaying = false;
+    const music = document.getElementById('wedding-music');
+
+    function toggleMusic(){
+      const icon = document.querySelector('.music-btn i');
+
+      if(isPlaying){
+        music.pause();
+        icon.setAttribute('data-lucide','music');
+      }else{
+        music.play().catch(()=>console.log("El navegador requiere interacción."));
+        icon.setAttribute('data-lucide','pause');
+      }
+
+      isPlaying = !isPlaying;
+      lucide.createIcons();
+    }
+  </script>
+</body>
+</html>
