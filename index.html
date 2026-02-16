@@ -42,6 +42,24 @@
             60% {transform: translate(-50%, -5px);}
         }
 
+        @keyframes drawLine {
+            0% { stroke-dashoffset: 400; }
+            100% { stroke-dashoffset: 0; }
+        }
+
+        /* Estado inicial de los iconos (ocultos) */
+        .animate-draw {
+            stroke-dasharray: 400;
+            stroke-dashoffset: 400;
+            opacity: 0;
+        }
+
+        /* Clase que activa la animación cuando es visible */
+        .is-visible .animate-draw {
+            opacity: 1;
+            animation: drawLine 3s ease-out forwards;
+        }
+
         /* --- SECCIONES RASGADAS RESPONSIVE --- */
         .torn-section {
             position: relative;
@@ -174,7 +192,7 @@
         .info-detail {
             font-family: 'Playfair Display', serif;
             font-size: 1rem;
-            margin: 0.5rem 0 1.2rem;
+            margin: 0.5rem 0 0.8rem;
             max-width: 90%;
         }
 
@@ -186,8 +204,8 @@
             letter-spacing: 1.5px;
             font-weight: 600;
             width: 100%;
-            max-width: 220px;
-            margin-bottom: 1.5rem;
+            max-width: 240px;
+            margin-bottom: 1rem;
             transition: all 0.3s;
             background: transparent;
         }
@@ -367,17 +385,6 @@
             z-index: 30;
         }
 
-        @keyframes drawLine {
-            0% { stroke-dashoffset: 400; }
-            100% { stroke-dashoffset: 0; }
-        }
-
-        .animate-draw {
-            stroke-dasharray: 400;
-            stroke-dashoffset: 400;
-            animation: drawLine 3s ease-out forwards;
-        }
-
     </style>
 </head>
 <body>
@@ -442,11 +449,15 @@
                     </svg>
                 </div>
                 <div class="banner-title">Ceremonia</div>
+                
                 <p class="info-label">Día</p>
                 <p class="info-detail">Sábado 12 de Septiembre - 17:00hs</p>
                 <button class="btn-action">Agendar Fecha</button>
+                
                 <p class="info-label">Lugar</p>
                 <p class="info-detail">Parroquia Nuestra Señora de Luján</p>
+                <button class="btn-action">Confirmar Asistencia</button>
+                
                 <p class="info-label">Dirección</p>
                 <p class="info-detail">Av. Pergamino 203 - CABA</p>
                 <button class="btn-action">¿Cómo Llegar?</button>
@@ -469,11 +480,15 @@
                     </svg>
                 </div>
                 <div class="banner-title">Fiesta</div>
+                
                 <p class="info-label">Día</p>
                 <p class="info-detail">Sábado 12 de Septiembre - 20:30hs</p>
                 <button class="btn-action">Agendar Fecha</button>
+                
                 <p class="info-label">Lugar</p>
                 <p class="info-detail">Salón de fiestas Abril</p>
+                <button class="btn-action">Confirmar Asistencia</button>
+                
                 <p class="info-label">Dirección</p>
                 <p class="info-detail">Av. Los Reartes 12 - Bs As</p>
                 <button class="btn-action">¿Cómo Llegar?</button>
@@ -522,7 +537,7 @@
     </footer>
 
     <script>
-        // Visibilidad del contador
+        // Visibilidad del contador flotante
         const floatingCountdown = document.getElementById('floatingCountdown');
         const SCROLL_THRESHOLD = 80;
 
@@ -536,12 +551,18 @@
         window.addEventListener('scroll', handleScroll);
         handleScroll();
 
-        // Reveal de bordes rasgados
+        // Reveal de bordes rasgados y activación de animaciones SVG
+        // Usamos un observador para detectar cuándo la sección entra en pantalla
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) entry.target.classList.add('reveal-edge');
+                if (entry.isIntersecting) {
+                    // Marcamos la sección como visible para activar el CSS de revelado y dibujo
+                    entry.target.classList.add('reveal-edge');
+                    entry.target.classList.add('is-visible');
+                }
             });
-        }, { threshold: 0.05 });
+        }, { threshold: 0.15 });
+
         document.querySelectorAll('.torn-section').forEach(el => observer.observe(el));
 
         // Lógica del Contador
