@@ -47,21 +47,32 @@
             60% {transform: translate(-50%, -5px);}
         }
 
-        @keyframes drawLineInfinite {
-            0% { stroke-dashoffset: 450; }
-            40% { stroke-dashoffset: 0; }
-            60% { stroke-dashoffset: 0; }
-            100% { stroke-dashoffset: 450; }
+        /* Animación Completa: Dibujar -> Shake -> Desarmar */
+        @keyframes complexIconAnim {
+            0% { stroke-dashoffset: 450; transform: scale(1) rotate(0deg); }
+            30% { stroke-dashoffset: 0; transform: scale(1) rotate(0deg); } /* Termina de dibujar */
+            35% { transform: scale(1.1) rotate(3deg); } /* Inicia Shake */
+            40% { transform: scale(1.1) rotate(-3deg); }
+            45% { transform: scale(1.1) rotate(3deg); }
+            50% { transform: scale(1.1) rotate(0deg); } /* Fin Shake */
+            70% { stroke-dashoffset: 0; } /* Pausa con icono completo */
+            100% { stroke-dashoffset: 450; } /* Se desarma */
+        }
+
+        /* Animación para el movimiento infinito de las olas */
+        @keyframes waveMove {
+            from { background-position-x: 0; }
+            to { background-position-x: 1200px; } 
         }
 
         .animate-draw {
             stroke-dasharray: 450;
             stroke-dashoffset: 450;
-            opacity: 1; 
         }
 
         .is-visible .animate-draw {
-            animation: drawLineInfinite 4.5s ease-in-out infinite;
+            animation: complexIconAnim 6s ease-in-out infinite;
+            transform-origin: center;
         }
 
         /* --- SECCIONES RASGADAS --- */
@@ -73,19 +84,21 @@
             border-top: 1px solid var(--paper-color);
         }
 
+        /* SVG optimizado para bucle sin fin (mismo inicio y fin en Y) */
         .torn-edge-top::before {
             content: "";
             position: absolute;
             top: -41px; 
             left: 0;
-            width: 101%; 
+            width: 100%; 
             height: 44px;
-            background-repeat: no-repeat;
-            background-size: 100% 44px;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1200 40' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 40h1200V18c-35 1-60 8-100 10-50 3-90-5-145-3-65 2-105 11-175 8-55-2-100-10-155-10-65 0-110 9-175 11-60 2-110-8-175-5-55 3-90 10-155 10-50 0-90-6-135-8V40z' fill='%23F6F3EE'/%3E%3C/svg%3E");
+            background-repeat: repeat-x;
+            background-size: 1200px 44px;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1200 40' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 40h1200V20c-100 0-200 10-300 10s-200-10-300-10-200 10-300 10-200-10-300-10z' fill='%23F6F3EE'/%3E%3C/svg%3E");
             opacity: 0;
             pointer-events: none;
             transform: scaleY(1.15); 
+            animation: waveMove 35s linear infinite; 
         }
 
         .torn-edge-bottom::after {
@@ -93,19 +106,28 @@
             position: absolute;
             bottom: -41px; 
             left: 0;
-            width: 101%;
+            width: 100%;
             height: 44px;
-            background-repeat: no-repeat;
-            background-size: 100% 44px;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1200 40' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h1200v22c-45-2-85-10-135-12-65-3-115 5-180 3-60-2-110-11-175-8-70 3-110 10-170 10-65 0-120-9-185-11-65-2-115 8-180 5-60-3-105-10-160-10-45 0-95 6-135 8V0z' fill='%23F6F3EE'/%3E%3C/svg%3E");
+            background-repeat: repeat-x;
+            background-size: 1200px 44px;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1200 40' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h1200v20c-100 0-200-10-300-10s-200 10-300 10-200-10-300-10-200 10-300 10z' fill='%23F6F3EE'/%3E%3C/svg%3E");
             opacity: 0;
             pointer-events: none;
             transform: scaleY(1.15);
+            animation: waveMove 45s linear infinite reverse; 
         }
 
         .reveal-edge::before, .reveal-edge::after {
             opacity: 1;
-            animation: fadeInTear 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+            transition: opacity 1.5s ease;
+        }
+        
+        .reveal-edge::before {
+            animation: fadeInTear 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards, waveMove 35s linear infinite;
+        }
+
+        .reveal-edge::after {
+            animation: fadeInTear 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards, waveMove 45s linear infinite reverse;
         }
 
         /* --- HERO --- */
@@ -308,7 +330,7 @@
 
         .gallery-track { 
             display: flex; 
-            transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1); 
+            transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1); 
             gap: 15px; 
             width: max-content;
             align-items: center;
@@ -323,7 +345,7 @@
             flex-shrink: 0;
             user-select: none;
             border-radius: 2px;
-            transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1), opacity 0.8s cubic-bezier(0.65, 0, 0.35, 1);
+            transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1), opacity 0.6s cubic-bezier(0.65, 0, 0.35, 1);
             opacity: 0.4;
             transform: scale(0.85);
             color: var(--text-main);
@@ -392,6 +414,63 @@
             color: var(--warm-base);
         }
 
+        /* --- NUEVA SECCION FIESTA --- */
+        .party-card {
+            background: white;
+            border-radius: 24px;
+            padding: 3rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(95, 111, 82, 0.08);
+            border: 1px solid rgba(95, 111, 82, 0.1);
+            transition: transform 0.3s ease;
+        }
+        .party-card:hover {
+            transform: translateY(-5px);
+        }
+        .party-card .icon-party-wrapper {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: visible;
+        }
+        .party-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.65rem;
+            color: var(--sage-dark);
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        .party-card p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-main);
+            opacity: 0.8;
+            margin-bottom: 2.5rem;
+            min-height: 3.5rem;
+        }
+        .party-card .btn-party {
+            background: white;
+            border: 1.5px solid var(--sage-main);
+            color: var(--sage-main);
+            border-radius: 50px;
+            padding: 0.8rem 2.5rem;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+        .party-card .btn-party:hover {
+            background: var(--sage-main);
+            color: white;
+        }
+
     </style>
 </head>
 <body>
@@ -441,7 +520,7 @@
         </div>
     </section>
 
-    <!-- INFO SECCION -->
+    <!-- INFO SECCION (CEREMONIA Y FIESTA) -->
     <section class="torn-section torn-edge-top torn-edge-bottom py-24 px-4 md:py-40" id="ceremonia-seccion">
         <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-center items-center md:items-start gap-12 md:gap-24 lg:gap-32">
             <!-- Ceremonia -->
@@ -538,6 +617,70 @@
         </div>
     </section>
 
+    <!-- SECCION DETALLES FIESTA -->
+    <section class="torn-section torn-edge-top py-24 md:py-32 bg-[#F6F3EE]" id="party-details">
+        <div class="max-w-6xl mx-auto px-6 text-center">
+            <h2 class="script text-5xl md:text-6xl mb-4 text-[#5F6F52]">Fiesta</h2>
+            <p class="playfair italic text-sm md:text-base opacity-70 mb-16">Hagamos juntos una fiesta épica. Aquí algunos detalles a tener en cuenta.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+                <!-- Musica -->
+                <div class="party-card torn-section">
+                    <div class="icon-party-wrapper">
+                        <svg class="w-full h-full" viewBox="0 0 100 100" fill="none" stroke="var(--sage-main)" stroke-width="1.8">
+                            <g class="animate-draw">
+                                <path d="M40 75 Q40 85 30 85 Q20 85 20 75 Q20 65 30 65 Q40 65 40 75 L40 25 L80 15 L80 65 Q80 75 70 75 Q60 75 60 65 Q60 55 70 55 Q80 55 80 65" stroke-linecap="round" stroke-linejoin="round" />
+                                <circle cx="45" cy="35" r="1.5" fill="var(--sage-main)" />
+                                <circle cx="75" cy="25" r="1.5" fill="var(--sage-main)" />
+                            </g>
+                        </svg>
+                    </div>
+                    <h3>Música</h3>
+                    <p>¿Cuál es la canción que no debe faltar en la PlayList de la fiesta?</p>
+                    <button class="btn-party">Sugerir Canción</button>
+                </div>
+
+                <!-- Dress Code -->
+                <div class="party-card torn-section">
+                    <div class="icon-party-wrapper">
+                        <svg class="w-full h-full" viewBox="0 0 100 100" fill="none" stroke="var(--sage-main)" stroke-width="1.8">
+                            <g class="animate-draw">
+                                <!-- Moño Elegante -->
+                                <path d="M50 50 L30 35 Q20 35 20 50 Q20 65 30 65 Z" fill="none" />
+                                <path d="M50 50 L70 35 Q80 35 80 50 Q80 65 70 65 Z" fill="none" />
+                                <rect x="44" y="44" width="12" height="12" rx="6" />
+                                <path d="M25 45 L25 55" opacity="0.3" />
+                                <path d="M75 45 L75 55" opacity="0.3" />
+                            </g>
+                        </svg>
+                    </div>
+                    <h3>Dress Code</h3>
+                    <p>Una orientación para tu vestuario: Elegante / Formal.</p>
+                    <button class="btn-party">Ver Más</button>
+                </div>
+
+                <!-- Tips y Notas -->
+                <div class="party-card torn-section">
+                    <div class="icon-party-wrapper">
+                        <svg class="w-full h-full" viewBox="0 0 100 100" fill="none" stroke="var(--sage-main)" stroke-width="1.8">
+                            <g class="animate-draw">
+                                <rect x="30" y="25" width="40" height="55" rx="2" />
+                                <path d="M40 25 L40 20 Q40 15 50 15 Q60 15 60 20 L60 25" />
+                                <line x1="40" y1="45" x2="60" y2="45" opacity="0.4" />
+                                <line x1="40" y1="55" x2="60" y2="55" opacity="0.4" />
+                                <line x1="40" y1="65" x2="52" y2="65" opacity="0.4" />
+                                <circle cx="50" cy="35" r="3" stroke-width="1.2" />
+                            </g>
+                        </svg>
+                    </div>
+                    <h3>Tips y Notas</h3>
+                    <p>Información adicional importante para tener en cuenta.</p>
+                    <button class="btn-party">+ Info</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- FOOTER -->
     <footer class="torn-section torn-edge-top py-20 text-center">
         <div class="px-6">
@@ -591,7 +734,7 @@
         setInterval(updateCountdown, 1000);
         updateCountdown();
 
-        // Carrusel Infinito
+        // --- CARRUSEL INFINITO CORREGIDO ---
         const track = document.getElementById('galleryTrack');
         const outer = document.getElementById('galleryCarousel');
         const nextBtn = document.getElementById('galleryNext');
@@ -599,50 +742,77 @@
         const originalCards = Array.from(track.children);
         const cardCount = originalCards.length;
         
-        // Clonar para efecto infinito
-        for(let i=0; i<5; i++) {
+        // Creamos copias para un scroll infinito suave
+        for(let i=0; i<6; i++) {
             originalCards.forEach(card => track.appendChild(card.cloneNode(true)));
         }
         
-        let currentIndex = cardCount * 2; 
+        // Empezamos en un set central de clones
+        let currentIndex = cardCount * 3; 
         let isTransitioning = false, autoPlayInterval;
 
         function updateCarousel(instant = false) {
             const containerWidth = outer.offsetWidth;
             if (!containerWidth) return;
+            
             const items = Array.from(track.children);
             const cardWidth = items[0].offsetWidth;
             const gap = containerWidth < 768 ? 15 : 20;
+            
+            // Calculamos el desplazamiento necesario para centrar la tarjeta activa
             const offset = (currentIndex * (cardWidth + gap)) - (containerWidth / 2) + (cardWidth / 2);
             
-            track.style.transition = instant ? 'none' : 'transform 0.8s cubic-bezier(0.65, 0, 0.35, 1)';
+            // Desactivamos transición si es un salto instantáneo (reinicio de bucle)
+            track.style.transition = instant ? 'none' : 'transform 0.6s cubic-bezier(0.65, 0, 0.35, 1)';
             track.style.transform = `translateX(${-offset}px)`;
             
+            // Actualizamos estados visuales (escala y opacidad)
             items.forEach((item, index) => {
-                if (index === currentIndex) item.classList.add('active');
-                else item.classList.remove('active');
+                if (index === currentIndex) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
             });
         }
 
         function move(direction) {
             if (isTransitioning) return;
             isTransitioning = true;
+
             currentIndex = (direction === 'next') ? currentIndex + 1 : currentIndex - 1;
             updateCarousel();
+            
+            // El salto instantáneo ocurre DESPUÉS de que termina la transición visual (600ms)
             setTimeout(() => {
-                isTransitioning = false;
-                if (currentIndex >= cardCount * 4 || currentIndex < cardCount) {
-                    currentIndex = (currentIndex % cardCount) + (cardCount * 2);
-                    updateCarousel(true);
+                // Si nos alejamos demasiado del centro, reseteamos la posición a un clon idéntico en el centro
+                if (currentIndex >= cardCount * 5 || currentIndex <= cardCount) {
+                    currentIndex = (currentIndex % cardCount) + (cardCount * 3);
+                    updateCarousel(true); // Salto sin animación
                 }
-            }, 800);
+                isTransitioning = false;
+            }, 600); 
         }
 
-        function startAutoPlay() { clearInterval(autoPlayInterval); autoPlayInterval = setInterval(() => move('next'), 4000); }
+        function startAutoPlay() { 
+            clearInterval(autoPlayInterval); 
+            autoPlayInterval = setInterval(() => move('next'), 4000); 
+        }
+
         nextBtn.addEventListener('click', () => { move('next'); startAutoPlay(); });
         prevBtn.addEventListener('click', () => { move('prev'); startAutoPlay(); });
-        window.addEventListener('resize', () => updateCarousel(true));
-        window.onload = () => { updateCarousel(true); startAutoPlay(); };
+        
+        // Manejo de redimensionamiento para recalcular el centro
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => updateCarousel(true), 100);
+        });
+        
+        window.onload = () => { 
+            updateCarousel(true); 
+            startAutoPlay(); 
+        };
     </script>
 </body>
 </html>
