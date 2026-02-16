@@ -9,21 +9,26 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         :root {
-            --powder-blue: #B2C8DF;
-            --classic-blue: #0F2C59;
-            --warm-white: #FBF9F1;
-            --paper-color: #FBF9F1;
-            --icon-stroke: #86968c;
-            --beige-card: #E8D7C7;
-            --dark-text: #3A2E26;
+            /* 🎨 Nueva Paleta Verde Salvia Elegante */
+            --sage-main: #5F6F52;
+            --sage-dark: #4E5D43;
+            --sage-light: #7A8C6B;
+            --warm-base: #F6F3EE;
+            --beige-soft: #E8E2D8;
+            --text-main: #2F2A26;
+            
+            /* Variables de soporte para mantener estructura */
+            --paper-color: var(--warm-base);
+            --icon-stroke: var(--sage-light);
+            --classic-blue: var(--sage-main); 
         }
 
         body {
-            background-color: var(--classic-blue);
+            background-color: var(--warm-base);
             font-family: 'Montserrat', sans-serif;
             margin: 0;
             overflow-x: hidden;
-            color: var(--classic-blue);
+            color: var(--text-main);
             -webkit-font-smoothing: antialiased;
         }
 
@@ -42,25 +47,24 @@
             60% {transform: translate(-50%, -5px);}
         }
 
-        @keyframes drawLine {
-            0% { stroke-dashoffset: 400; }
-            100% { stroke-dashoffset: 0; }
+        @keyframes drawLineInfinite {
+            0% { stroke-dashoffset: 450; }
+            40% { stroke-dashoffset: 0; }
+            60% { stroke-dashoffset: 0; }
+            100% { stroke-dashoffset: 450; }
         }
 
-        /* Estado inicial de los iconos (ocultos) */
         .animate-draw {
-            stroke-dasharray: 400;
-            stroke-dashoffset: 400;
-            opacity: 0;
+            stroke-dasharray: 450;
+            stroke-dashoffset: 450;
+            opacity: 1; 
         }
 
-        /* Clase que activa la animación cuando es visible */
         .is-visible .animate-draw {
-            opacity: 1;
-            animation: drawLine 3s ease-out forwards;
+            animation: drawLineInfinite 4.5s ease-in-out infinite;
         }
 
-        /* --- SECCIONES RASGADAS RESPONSIVE --- */
+        /* --- SECCIONES RASGADAS --- */
         .torn-section {
             position: relative;
             background-color: var(--paper-color);
@@ -78,7 +82,7 @@
             height: 44px;
             background-repeat: no-repeat;
             background-size: 100% 44px;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1200 40' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 40h1200V18c-35 1-60 8-100 10-50 3-90-5-145-3-65 2-105 11-175 8-55-2-100-10-155-10-65 0-110 9-175 11-60 2-110-8-175-5-55 3-90 10-155 10-50 0-90-6-135-8V40z' fill='%23FBF9F1'/%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1200 40' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 40h1200V18c-35 1-60 8-100 10-50 3-90-5-145-3-65 2-105 11-175 8-55-2-100-10-155-10-65 0-110 9-175 11-60 2-110-8-175-5-55 3-90 10-155 10-50 0-90-6-135-8V40z' fill='%23F6F3EE'/%3E%3C/svg%3E");
             opacity: 0;
             pointer-events: none;
             transform: scaleY(1.15); 
@@ -93,7 +97,7 @@
             height: 44px;
             background-repeat: no-repeat;
             background-size: 100% 44px;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1200 40' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h1200v22c-45-2-85-10-135-12-65-3-115 5-180 3-60-2-110-11-175-8-70 3-110 10-170 10-65 0-120-9-185-11-65-2-115 8-180 5-60-3-105-10-160-10-45 0-95 6-135 8V0z' fill='%23FBF9F1'/%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1200 40' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h1200v22c-45-2-85-10-135-12-65-3-115 5-180 3-60-2-110-11-175-8-70 3-110 10-170 10-65 0-120-9-185-11-65-2-115 8-180 5-60-3-105-10-160-10-45 0-95 6-135 8V0z' fill='%23F6F3EE'/%3E%3C/svg%3E");
             opacity: 0;
             pointer-events: none;
             transform: scaleY(1.15);
@@ -104,7 +108,7 @@
             animation: fadeInTear 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
         }
 
-        /* --- HERO RESPONSIVE --- */
+        /* --- HERO --- */
         .hero-section {
             position: relative;
             height: 100vh;
@@ -112,8 +116,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: visible; 
-            background-color: var(--classic-blue);
+            background-color: var(--sage-main);
         }
         .hero-bg {
             position: absolute;
@@ -121,20 +124,20 @@
             background-image: url('https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2070&auto=format&fit=crop');
             background-size: cover;
             background-position: center;
-            filter: brightness(0.4);
+            filter: brightness(0.5) sepia(0.2);
         }
 
         .hero-content {
             position: relative;
             z-index: 10;
             text-align: center;
-            color: white;
+            color: var(--warm-base);
             padding: 0 1.5rem;
             width: 100%;
             max-width: 1200px;
         }
 
-        /* --- INFO CARDS RESPONSIVE --- */
+        /* --- INFO CARDS --- */
         .info-card {
             display: flex;
             flex-direction: column;
@@ -145,28 +148,28 @@
         }
 
         .icon-wrapper {
-            width: 100px;
-            height: 100px;
+            width: 110px;
+            height: 110px;
             background: white;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 10px 25px rgba(15, 44, 89, 0.05);
+            box-shadow: 0 10px 25px rgba(95, 111, 82, 0.1);
             margin-bottom: 1.5rem;
-            border: 1px solid var(--powder-blue);
+            border: 1px solid var(--sage-light);
             flex-shrink: 0;
         }
 
         @media (min-width: 768px) {
-            .icon-wrapper { width: 140px; height: 140px; }
+            .icon-wrapper { width: 150px; height: 150px; }
         }
 
-        .icon-svg { width: 70%; height: 70%; }
+        .icon-svg { width: 80%; height: 80%; }
 
         .banner-title {
-            background-color: var(--classic-blue);
-            color: var(--warm-white);
+            background-color: var(--sage-main);
+            color: var(--warm-base);
             padding: 0.5rem 0;
             width: 280px;
             max-width: 85vw;
@@ -180,24 +183,26 @@
         }
 
         .info-label {
+            color: var(--sage-main);
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 2px;
             font-size: 0.75rem;
             margin-top: 1rem;
-            border-bottom: 1px solid var(--powder-blue);
+            border-bottom: 1px solid var(--sage-light);
             padding-bottom: 2px;
         }
 
         .info-detail {
             font-family: 'Playfair Display', serif;
             font-size: 1rem;
+            color: var(--text-main);
             margin: 0.5rem 0 0.8rem;
             max-width: 90%;
         }
 
         .btn-action {
-            border: 1px solid var(--classic-blue);
+            border: 1px solid var(--sage-main);
             padding: 0.6rem 2rem;
             text-transform: uppercase;
             font-size: 0.7rem;
@@ -207,15 +212,28 @@
             max-width: 240px;
             margin-bottom: 1rem;
             transition: all 0.3s;
-            background: transparent;
+            background: var(--sage-main);
+            color: var(--warm-base);
         }
 
         .btn-action:hover {
-            background: var(--classic-blue);
-            color: white;
+            background: var(--sage-dark);
+            border-color: var(--sage-dark);
+            color: var(--warm-base);
         }
 
-        /* --- CONTADOR DINÁMICO RESPONSIVE --- */
+        .btn-secondary {
+            background: transparent;
+            color: var(--sage-main);
+            border-color: var(--sage-main);
+        }
+
+        .btn-secondary:hover {
+            background: var(--sage-main);
+            color: var(--warm-base);
+        }
+
+        /* --- CONTADOR --- */
         .countdown-wrapper {
             position: absolute;
             bottom: -40px;
@@ -243,33 +261,20 @@
             width: 100%;
         }
 
-        @media (min-width: 480px) {
-            .countdown-container { gap: 0.85rem; }
-            .countdown-wrapper { bottom: -35px; }
-        }
-
         .count-card {
             flex: 1;
             max-width: 85px;
             min-width: 70px;
             padding: 0.8rem 0.2rem;
-            background: var(--classic-blue); 
+            background: var(--beige-soft); 
             border-radius: 12px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-            color: white; 
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        @media (min-width: 768px) {
-            .count-card {
-                max-width: 100px;
-                padding: 1.2rem 0.5rem;
-                border-radius: 14px;
-            }
+            box-shadow: 0 10px 20px rgba(95, 111, 82, 0.15);
+            color: var(--sage-dark); 
+            border: 1px solid rgba(255, 255, 255, 0.5);
         }
 
         .count-number {
@@ -280,23 +285,19 @@
             margin-bottom: 4px;
         }
 
-        @media (min-width: 768px) { .count-number { font-size: 2rem; } }
-
         .count-text {
             font-size: 0.55rem;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
-            opacity: 0.7;
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            opacity: 0.8;
+            border-top: 1px solid rgba(95, 111, 82, 0.2);
             padding-top: 4px;
             width: 80%;
             text-align: center;
         }
 
-        @media (min-width: 768px) { .count-text { font-size: 0.65rem; letter-spacing: 1.5px; } }
-
-        /* --- GALLERY CAROUSEL RESPONSIVE --- */
+        /* --- GALLERY CAROUSEL --- */
         .gallery-carousel-outer { 
             width: 100%; 
             overflow: hidden; 
@@ -325,6 +326,7 @@
             transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1), opacity 0.8s cubic-bezier(0.65, 0, 0.35, 1);
             opacity: 0.4;
             transform: scale(0.85);
+            color: var(--text-main);
         }
 
         @media (min-width: 768px) { 
@@ -335,7 +337,7 @@
         .gallery-postcard.active {
             opacity: 1;
             transform: scale(1.05);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
             z-index: 20;
         }
 
@@ -347,7 +349,7 @@
             width: 100%; 
             aspect-ratio: 3 / 2; 
             overflow: hidden; 
-            background: #f0f0f0; 
+            background: var(--beige-soft); 
             pointer-events: none;
         }
         .gallery-img-box img { width: 100%; height: 100%; object-fit: cover; }
@@ -356,9 +358,8 @@
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            background: rgba(255,255,255,0.15);
-            backdrop-filter: blur(4px);
-            color: white;
+            background: var(--warm-base);
+            color: var(--sage-dark);
             width: 40px;
             height: 40px;
             border-radius: 50%;
@@ -367,10 +368,10 @@
             justify-content: center;
             z-index: 40;
             cursor: pointer;
+            transition: all 0.3s;
         }
         
-        @media (min-width: 768px) { .nav-btn { width: 50px; height: 50px; background: rgba(255,255,255,0.2); } }
-
+        .nav-btn:hover { background: var(--beige-soft); transform: translateY(-50%) scale(1.1); }
         .prev-btn { left: 5px; }
         .next-btn { right: 5px; }
 
@@ -379,10 +380,16 @@
             bottom: 100px;
             left: 50%;
             transform: translateX(-50%);
-            color: white;
+            color: var(--warm-base);
             animation: bounceArrow 2s infinite;
             cursor: pointer;
             z-index: 30;
+        }
+
+        /* Secciones alternadas profundidad */
+        .bg-gallery-dark {
+            background-color: var(--sage-dark);
+            color: var(--warm-base);
         }
 
     </style>
@@ -440,11 +447,11 @@
             <!-- Ceremonia -->
             <div class="info-card">
                 <div class="icon-wrapper">
-                    <svg class="icon-svg" viewBox="0 0 100 100" fill="none" stroke="var(--icon-stroke)" stroke-width="1.5">
+                    <svg class="icon-svg" viewBox="0 0 100 100" fill="none" stroke="var(--sage-main)" stroke-width="1.5">
                         <g class="animate-draw">
-                            <circle cx="35" cy="65" r="20" />
-                            <circle cx="65" cy="65" r="20" />
-                            <path d="M35 43 Q35 34 40 34 Q45 34 45 39 Q45 46 35 54 Q25 46 25 39 Q25 34 30 34 Q35 34 35 43" />
+                            <circle cx="38" cy="62" r="22" />
+                            <circle cx="62" cy="62" r="22" />
+                            <path d="M38 42 Q38 32 43 32 Q48 32 48 37 Q48 44 38 52 Q28 44 28 37 Q28 32 33 32 Q38 32 38 42" fill="var(--sage-main)" stroke="var(--sage-main)" stroke-width="1.5" />
                         </g>
                     </svg>
                 </div>
@@ -456,26 +463,29 @@
                 
                 <p class="info-label">Lugar</p>
                 <p class="info-detail">Parroquia Nuestra Señora de Luján</p>
-                <button class="btn-action">Confirmar Asistencia</button>
+                <button class="btn-action btn-secondary">Confirmar Asistencia</button>
                 
                 <p class="info-label">Dirección</p>
                 <p class="info-detail">Av. Pergamino 203 - CABA</p>
-                <button class="btn-action">¿Cómo Llegar?</button>
+                <button class="btn-action btn-secondary">¿Cómo Llegar?</button>
             </div>
 
             <!-- Divisor PC -->
-            <div class="hidden md:block w-px bg-slate-200 h-96 self-center opacity-50"></div>
+            <div class="hidden md:block w-px bg-[#7A8C6B] h-96 self-center opacity-30"></div>
             <!-- Divisor Mobile -->
-            <div class="md:hidden w-1/2 h-px bg-slate-200 my-4 opacity-50"></div>
+            <div class="md:hidden w-1/2 h-px bg-[#7A8C6B] my-4 opacity-30"></div>
 
             <!-- Fiesta -->
             <div class="info-card">
                 <div class="icon-wrapper">
-                    <svg class="icon-svg" viewBox="0 0 100 100" fill="none" stroke="var(--icon-stroke)" stroke-width="1.5">
+                    <svg class="icon-svg" viewBox="0 0 100 100" fill="none" stroke="var(--sage-main)" stroke-width="1.5">
                         <g class="animate-draw">
-                            <rect x="25" y="60" width="50" height="25" rx="2" />
-                            <rect x="35" y="40" width="30" height="20" rx="2" />
-                            <circle cx="50" cy="25" r="5" />
+                            <path d="M20 85 L80 85" stroke-width="2" stroke-linecap="round" />
+                            <rect x="25" y="60" width="50" height="25" rx="3" />
+                            <path d="M25 72 L75 72" opacity="0.4" />
+                            <rect x="35" y="42" width="30" height="18" rx="2" />
+                            <line x1="50" y1="42" x2="50" y2="35" stroke-width="2" />
+                            <path d="M50 35 Q53 30 50 25 Q47 30 50 35" stroke-width="1.2" />
                         </g>
                     </svg>
                 </div>
@@ -487,26 +497,26 @@
                 
                 <p class="info-label">Lugar</p>
                 <p class="info-detail">Salón de fiestas Abril</p>
-                <button class="btn-action">Confirmar Asistencia</button>
+                <button class="btn-action btn-secondary">Confirmar Asistencia</button>
                 
                 <p class="info-label">Dirección</p>
                 <p class="info-detail">Av. Los Reartes 12 - Bs As</p>
-                <button class="btn-action">¿Cómo Llegar?</button>
+                <button class="btn-action btn-secondary">¿Cómo Llegar?</button>
             </div>
         </div>
     </section>
 
     <!-- HISTORIA / GALERÍA -->
-    <section class="py-24 bg-[#0F2C59] text-white overflow-hidden" id="gallery">
-        <div class="max-w-7xl mx-auto text-center relative">
-            <h2 class="script text-5xl md:text-6xl mb-4">Nuestra Historia</h2>
-            <p class="playfair italic text-xs md:text-sm opacity-60 tracking-[3px] md:tracking-[4px] mb-12 uppercase px-4">Instantes que atesoramos</p>
+    <section class="py-24 bg-gallery-dark overflow-hidden" id="gallery">
+        <div class="max-w-7xl mx-auto text-center relative px-4">
+            <h2 class="script text-5xl md:text-6xl mb-4 text-[#F6F3EE]">Nuestra Historia</h2>
+            <p class="playfair italic text-xs md:text-sm opacity-80 tracking-[3px] md:tracking-[4px] mb-12 uppercase text-[#F6F3EE]">Instantes que atesoramos</p>
             
             <div class="gallery-carousel-outer" id="galleryCarousel">
                 <div class="nav-btn prev-btn" id="galleryPrev">❮</div>
                 <div class="nav-btn next-btn" id="galleryNext">❯</div>
                 
-                <div class="gallery-track text-slate-900" id="galleryTrack">
+                <div class="gallery-track" id="galleryTrack">
                     <div class="gallery-postcard">
                         <div class="gallery-img-box"><img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=800" alt="Nuestra primera cita"></div>
                         <p class="mt-3 playfair italic text-sm">Nuestra primera cita</p>
@@ -531,7 +541,7 @@
     <!-- FOOTER -->
     <footer class="torn-section torn-edge-top py-20 text-center">
         <div class="px-6">
-            <p class="script text-4xl mb-4">¡Te esperamos!</p>
+            <p class="script text-4xl mb-4 text-[#5F6F52]">¡Te esperamos!</p>
             <p class="playfair text-[10px] tracking-[4px] uppercase opacity-50">Franco & Melina &bull; 2026</p>
         </div>
     </footer>
@@ -552,11 +562,9 @@
         handleScroll();
 
         // Reveal de bordes rasgados y activación de animaciones SVG
-        // Usamos un observador para detectar cuándo la sección entra en pantalla
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    // Marcamos la sección como visible para activar el CSS de revelado y dibujo
                     entry.target.classList.add('reveal-edge');
                     entry.target.classList.add('is-visible');
                 }
@@ -601,6 +609,7 @@
 
         function updateCarousel(instant = false) {
             const containerWidth = outer.offsetWidth;
+            if (!containerWidth) return;
             const items = Array.from(track.children);
             const cardWidth = items[0].offsetWidth;
             const gap = containerWidth < 768 ? 15 : 20;
