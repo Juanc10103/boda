@@ -1,0 +1,634 @@
+:root {
+    /* 🎨 Paleta Verde Salvia Elegante */
+    --sage-main: #5F6F52;
+    --sage-dark: #4E5D43;
+    --sage-light: #7A8C6B;
+    --warm-base: #F6F3EE;
+    --beige-soft: #E8E2D8;
+    --text-main: #2F2A26;
+
+    --paper-color: var(--warm-base);
+    --icon-stroke: var(--sage-light);
+    --classic-blue: var(--sage-main);
+    --gold-accent: #C5A059;
+}
+
+body {
+    background-color: var(--warm-base);
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    overflow-x: hidden;
+    color: var(--text-main);
+    -webkit-font-smoothing: antialiased;
+}
+
+.playfair {
+    font-family: 'Playfair Display', serif;
+}
+
+.script {
+    font-family: 'Great Vibes', cursive;
+}
+
+/* --- ANIMACIONES --- */
+@keyframes fadeInTear {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes bounceArrow {
+
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+        transform: translate(-50%, 0);
+    }
+
+    40% {
+        transform: translate(-50%, -10px);
+    }
+
+    60% {
+        transform: translate(-50%, -5px);
+    }
+}
+
+@keyframes drawIconAnim {
+    0% {
+        stroke-dashoffset: 450;
+        opacity: 1;
+    }
+
+    40% {
+        stroke-dashoffset: 0;
+        opacity: 1;
+    }
+
+    60% {
+        stroke-dashoffset: 0;
+        opacity: 1;
+    }
+
+    100% {
+        stroke-dashoffset: 450;
+        opacity: 1;
+    }
+}
+
+@keyframes shakeIconIntermittent {
+
+    0%,
+    20% {
+        transform: rotate(0deg);
+    }
+
+    22% {
+        transform: rotate(-5deg);
+    }
+
+    24% {
+        transform: rotate(5deg);
+    }
+
+    26% {
+        transform: rotate(-5deg);
+    }
+
+    28% {
+        transform: rotate(5deg);
+    }
+
+    30%,
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+@keyframes waveMove {
+    from {
+        background-position-x: 0;
+    }
+
+    to {
+        background-position-x: 1200px;
+    }
+}
+
+/* --- EFECTO PAPEL RASGADO SIMÉTRICO --- */
+.torn-edge-symmetric-top::before {
+    content: "";
+    position: absolute;
+    top: -2px;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    background-repeat: repeat-x;
+    background-size: 150px 80px;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 150 80' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,80 L0,30 Q8,35 12,25 Q16,15 20,22 Q24,30 28,18 Q32,6 36,14 Q40,22 44,12 Q48,2 52,10 Q56,18 60,8 Q64,0 68,8 Q72,16 76,6 Q80,0 84,10 Q88,20 92,10 Q96,0 100,8 Q104,16 108,6 Q112,0 116,10 Q120,20 124,12 Q128,4 132,14 Q136,24 140,16 Q144,8 148,18 Q150,24 150,30 L150,80 Z' fill='%234E5D43'/%3E%3C/svg%3E");
+    opacity: 0;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.torn-edge-symmetric-bottom::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    background-repeat: repeat-x;
+    background-size: 150px 80px;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 150 80' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,0 L0,50 Q8,45 12,55 Q16,65 20,58 Q24,50 28,62 Q32,74 36,66 Q40,58 44,68 Q48,78 52,70 Q56,62 60,72 Q64,80 68,72 Q72,64 76,74 Q80,80 84,70 Q88,60 92,70 Q96,80 100,72 Q104,64 108,74 Q112,80 116,70 Q120,60 124,68 Q128,76 132,66 Q136,56 140,64 Q144,72 148,62 Q150,56 150,50 L150,0 Z' fill='%234E5D43'/%3E%3C/svg%3E");
+    opacity: 0;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.reveal-edge-symmetric::before,
+.reveal-edge-symmetric::after {
+    opacity: 1;
+    transition: opacity 1.5s ease;
+}
+
+.animate-draw {
+    stroke-dasharray: 450;
+    stroke-dashoffset: 450;
+}
+
+.is-visible .animate-draw {
+    animation: drawIconAnim 5s ease-in-out infinite;
+    transform-origin: center;
+}
+
+.is-visible .icon-svg,
+.is-visible .icon-party-wrapper svg {
+    animation: shakeIconIntermittent 5s ease-in-out infinite;
+    transform-origin: center;
+}
+
+/* --- SECCIONES RASGADAS --- */
+.torn-section {
+    position: relative;
+    background-color: var(--paper-color);
+    z-index: 10;
+    margin-top: -2px;
+    border-top: 1px solid var(--paper-color);
+}
+
+.torn-edge-top::before {
+    content: "";
+    position: absolute;
+    top: -41px;
+    left: 0;
+    width: 100%;
+    height: 44px;
+    background-repeat: repeat-x;
+    background-size: 1200px 44px;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1200 40' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 40h1200V20c-100 0-200 10-300 10s-200-10-300-10-200 10-300 10-200-10-300-10z' fill='%23F6F3EE'/%3E%3C/svg%3E");
+    opacity: 0;
+    pointer-events: none;
+    transform: scaleY(1.15);
+    animation: waveMove 35s linear infinite;
+}
+
+.torn-edge-bottom::after {
+    content: "";
+    position: absolute;
+    bottom: -41px;
+    left: 0;
+    width: 100%;
+    height: 44px;
+    background-repeat: repeat-x;
+    background-size: 1200px 44px;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1200 40' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h1200v20c-100 0-200-10-300-10s-200 10-300 10-200-10-300-10 200 10-300 10z' fill='%23F6F3EE'/%3E%3C/svg%3E");
+    opacity: 0;
+    pointer-events: none;
+    transform: scaleY(1.15);
+    animation: waveMove 45s linear infinite reverse;
+}
+
+.reveal-edge::before,
+.reveal-edge::after {
+    opacity: 1;
+    transition: opacity 1.5s ease;
+}
+
+.reveal-edge::before {
+    animation: fadeInTear 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards, waveMove 35s linear infinite;
+}
+
+.reveal-edge::after {
+    animation: fadeInTear 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards, waveMove 45s linear infinite reverse;
+}
+
+.reveal-edge-symmetric::before {
+    animation: fadeInTear 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.reveal-edge-symmetric::after {
+    animation: fadeInTear 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* --- HERO --- */
+.hero-section {
+    position: relative;
+    height: 100vh;
+    min-height: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--sage-main);
+}
+
+.hero-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2070&auto=format&fit=crop');
+    background-size: cover;
+    background-position: center;
+    filter: brightness(0.5) sepia(0.2);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    color: var(--warm-base);
+    padding: 0 1.5rem;
+    width: 100%;
+    max-width: 1200px;
+}
+
+/* --- INFO CARDS --- */
+.info-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    padding: 1rem;
+}
+
+.icon-wrapper {
+    width: 110px;
+    height: 110px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 25px rgba(95, 111, 82, 0.1);
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--sage-light);
+    flex-shrink: 0;
+    overflow: visible;
+}
+
+@media (min-width: 768px) {
+    .icon-wrapper {
+        width: 150px;
+        height: 150px;
+    }
+}
+
+.icon-svg {
+    width: 80%;
+    height: 80%;
+}
+
+.banner-title {
+    background-color: var(--sage-main);
+    color: var(--warm-base);
+    padding: 0.5rem 0;
+    width: 280px;
+    max-width: 85vw;
+    font-family: 'Great Vibes', cursive;
+    font-size: 1.75rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2rem;
+    clip-path: polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0 50%);
+}
+
+.info-label {
+    color: var(--sage-main);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 0.75rem;
+    margin-top: 1rem;
+    border-bottom: 1px solid var(--sage-light);
+    padding-bottom: 2px;
+}
+
+.info-detail {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    color: var(--text-main);
+    margin: 0.5rem 0 0.8rem;
+    max-width: 90%;
+}
+
+.btn-action {
+    border: 1px solid var(--sage-main);
+    padding: 0.6rem 2rem;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    letter-spacing: 1.5px;
+    font-weight: 600;
+    width: 100%;
+    max-width: 240px;
+    margin-bottom: 1rem;
+    transition: all 0.3s;
+    background: var(--sage-main);
+    color: var(--warm-base);
+}
+
+.btn-action:hover {
+    background: var(--sage-dark);
+    border-color: var(--sage-dark);
+}
+
+.btn-secondary {
+    background: transparent;
+    color: var(--sage-main);
+    border-color: var(--sage-main);
+}
+
+.btn-secondary:hover {
+    background: var(--sage-main);
+    color: var(--warm-base);
+}
+
+/* --- CONTADOR --- */
+.countdown-wrapper {
+    position: absolute;
+    bottom: -40px;
+    left: 50%;
+    z-index: 50;
+    width: 100%;
+    max-width: 100vw;
+    opacity: 0;
+    transform: translateX(-50%) translateY(14px);
+    pointer-events: none;
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.countdown-wrapper.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+    pointer-events: auto;
+}
+
+.countdown-container {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0 0.5rem;
+    width: 100%;
+}
+
+.count-card {
+    flex: 1;
+    max-width: 85px;
+    min-width: 70px;
+    padding: 0.8rem 0.2rem;
+    background: var(--sage-main);
+    /* COLOR INVERTIDO */
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    color: var(--warm-base);
+    /* TEXTO CLARO */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.count-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 4px;
+}
+
+.count-text {
+    font-size: 0.55rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.8;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    padding-top: 4px;
+    width: 80%;
+    text-align: center;
+}
+
+/* --- GALLERY CAROUSEL --- */
+.gallery-carousel-outer {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    padding: 3rem 0;
+    cursor: grab;
+}
+
+.gallery-track {
+    display: flex;
+    transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+    gap: 15px;
+    width: max-content;
+    align-items: center;
+    will-change: transform;
+}
+
+.gallery-postcard {
+    background: white;
+    padding: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 240px;
+    flex-shrink: 0;
+    user-select: none;
+    border-radius: 2px;
+    transition: all 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+    opacity: 0.4;
+    transform: scale(0.85);
+    color: var(--text-main);
+}
+
+@media (min-width: 768px) {
+    .gallery-track {
+        gap: 20px;
+    }
+
+    .gallery-postcard {
+        width: 400px;
+        padding: 10px;
+    }
+}
+
+.gallery-postcard.active {
+    opacity: 1;
+    transform: scale(1.05);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    z-index: 20;
+}
+
+@media (min-width: 768px) {
+    .gallery-postcard.active {
+        transform: scale(1.15);
+    }
+}
+
+.gallery-img-box {
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+    background: var(--beige-soft);
+    pointer-events: none;
+}
+
+.gallery-img-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--warm-base);
+    color: var(--sage-dark);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 40;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.nav-btn:hover {
+    background: var(--beige-soft);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.prev-btn {
+    left: 5px;
+}
+
+.next-btn {
+    right: 5px;
+}
+
+.scroll-arrow {
+    position: absolute;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--warm-base);
+    animation: bounceArrow 2s infinite;
+    cursor: pointer;
+    z-index: 30;
+}
+
+.bg-gallery-dark {
+    background-color: var(--sage-dark);
+    color: var(--warm-base);
+    position: relative;
+    z-index: 5;
+}
+
+/* --- SECCION CARDS FIESTA --- */
+.party-card {
+    background: white;
+    border-radius: 24px;
+    padding: 3rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 15px 40px rgba(95, 111, 82, 0.08);
+    border: 1px solid rgba(95, 111, 82, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.party-card:hover {
+    transform: translateY(-5px);
+}
+
+.party-card .icon-party-wrapper {
+    width: 120px;
+    height: 120px;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+}
+
+.party-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.65rem;
+    color: var(--sage-dark);
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.party-card p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text-main);
+    opacity: 0.8;
+    margin-bottom: 2.5rem;
+    min-height: 3.5rem;
+}
+
+.party-card .btn-party {
+    background: white;
+    border: 1.5px solid var(--sage-main);
+    color: var(--sage-main);
+    border-radius: 50px;
+    padding: 0.8rem 2.5rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+.party-card .btn-party:hover {
+    background: var(--sage-main);
+    color: white;
+}
+
+/* --- DECORACIONES --- */
+.golden-divider {
+    width: 100%;
+    height: 40px;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1200 40' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,40 Q600,-40 1200,40' fill='none' stroke='%23C5A059' stroke-width='1.5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100% 100%;
+    margin: 2rem 0;
+    opacity: 0.8;
+}

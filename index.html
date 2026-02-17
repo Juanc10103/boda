@@ -1,503 +1,46 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Franco & Melina - Nuestra Boda</title>
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;600&family=Great+Vibes&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;600&family=Great+Vibes&display=swap"
+        rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        :root {
-            /* 🎨 Nueva Paleta Verde Salvia Elegante */
-            --sage-main: #5F6F52;
-            --sage-dark: #4E5D43;
-            --sage-light: #7A8C6B;
-            --warm-base: #F6F3EE;
-            --beige-soft: #E8E2D8;
-            --text-main: #2F2A26;
-            
-            /* Variables de soporte para mantener estructura */
-            --paper-color: var(--warm-base);
-            --icon-stroke: var(--sage-light);
-            --classic-blue: var(--sage-main); 
-        }
-
-        body {
-            background-color: var(--warm-base);
-            font-family: 'Montserrat', sans-serif;
-            margin: 0;
-            overflow-x: hidden;
-            color: var(--text-main);
-            -webkit-font-smoothing: antialiased;
-        }
-
-        .playfair { font-family: 'Playfair Display', serif; }
-        .script { font-family: 'Great Vibes', cursive; }
-
-        /* --- ANIMACIONES --- */
-        @keyframes fadeInTear {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes bounceArrow {
-            0%, 20%, 50%, 80%, 100% {transform: translate(-50%, 0);}
-            40% {transform: translate(-50%, -10px);}
-            60% {transform: translate(-50%, -5px);}
-        }
-
-        /* Animación Completa: Dibujar -> Shake -> Desarmar */
-        @keyframes complexIconAnim {
-            0% { stroke-dashoffset: 450; transform: scale(1) rotate(0deg); }
-            30% { stroke-dashoffset: 0; transform: scale(1) rotate(0deg); } /* Termina de dibujar */
-            35% { transform: scale(1.1) rotate(3deg); } /* Inicia Shake */
-            40% { transform: scale(1.1) rotate(-3deg); }
-            45% { transform: scale(1.1) rotate(3deg); }
-            50% { transform: scale(1.1) rotate(0deg); } /* Fin Shake */
-            70% { stroke-dashoffset: 0; } /* Pausa con icono completo */
-            100% { stroke-dashoffset: 450; } /* Se desarma */
-        }
-
-        /* Animación para el movimiento infinito de las olas */
-        @keyframes waveMove {
-            from { background-position-x: 0; }
-            to { background-position-x: 1200px; } 
-        }
-
-        .animate-draw {
-            stroke-dasharray: 450;
-            stroke-dashoffset: 450;
-        }
-
-        .is-visible .animate-draw {
-            animation: complexIconAnim 6s ease-in-out infinite;
-            transform-origin: center;
-        }
-
-        /* --- SECCIONES RASGADAS --- */
-        .torn-section {
-            position: relative;
-            background-color: var(--paper-color);
-            z-index: 10;
-            margin-top: -2px; 
-            border-top: 1px solid var(--paper-color);
-        }
-
-        /* SVG optimizado para bucle sin fin (mismo inicio y fin en Y) */
-        .torn-edge-top::before {
-            content: "";
-            position: absolute;
-            top: -41px; 
-            left: 0;
-            width: 100%; 
-            height: 44px;
-            background-repeat: repeat-x;
-            background-size: 1200px 44px;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1200 40' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 40h1200V20c-100 0-200 10-300 10s-200-10-300-10-200 10-300 10-200-10-300-10z' fill='%23F6F3EE'/%3E%3C/svg%3E");
-            opacity: 0;
-            pointer-events: none;
-            transform: scaleY(1.15); 
-            animation: waveMove 35s linear infinite; 
-        }
-
-        .torn-edge-bottom::after {
-            content: "";
-            position: absolute;
-            bottom: -41px; 
-            left: 0;
-            width: 100%;
-            height: 44px;
-            background-repeat: repeat-x;
-            background-size: 1200px 44px;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1200 40' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h1200v20c-100 0-200-10-300-10s-200 10-300 10-200-10-300-10-200 10-300 10z' fill='%23F6F3EE'/%3E%3C/svg%3E");
-            opacity: 0;
-            pointer-events: none;
-            transform: scaleY(1.15);
-            animation: waveMove 45s linear infinite reverse; 
-        }
-
-        .reveal-edge::before, .reveal-edge::after {
-            opacity: 1;
-            transition: opacity 1.5s ease;
-        }
-        
-        .reveal-edge::before {
-            animation: fadeInTear 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards, waveMove 35s linear infinite;
-        }
-
-        .reveal-edge::after {
-            animation: fadeInTear 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards, waveMove 45s linear infinite reverse;
-        }
-
-        /* --- HERO --- */
-        .hero-section {
-            position: relative;
-            height: 100vh;
-            min-height: 600px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: var(--sage-main);
-        }
-        .hero-bg {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-image: url('https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2070&auto=format&fit=crop');
-            background-size: cover;
-            background-position: center;
-            filter: brightness(0.5) sepia(0.2);
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 10;
-            text-align: center;
-            color: var(--warm-base);
-            padding: 0 1.5rem;
-            width: 100%;
-            max-width: 1200px;
-        }
-
-        /* --- INFO CARDS --- */
-        .info-card {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            width: 100%;
-            padding: 1rem;
-        }
-
-        .icon-wrapper {
-            width: 110px;
-            height: 110px;
-            background: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 10px 25px rgba(95, 111, 82, 0.1);
-            margin-bottom: 1.5rem;
-            border: 1px solid var(--sage-light);
-            flex-shrink: 0;
-        }
-
-        @media (min-width: 768px) {
-            .icon-wrapper { width: 150px; height: 150px; }
-        }
-
-        .icon-svg { width: 80%; height: 80%; }
-
-        .banner-title {
-            background-color: var(--sage-main);
-            color: var(--warm-base);
-            padding: 0.5rem 0;
-            width: 280px;
-            max-width: 85vw;
-            font-family: 'Great Vibes', cursive;
-            font-size: 1.75rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 2rem;
-            clip-path: polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0 50%);
-        }
-
-        .info-label {
-            color: var(--sage-main);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-size: 0.75rem;
-            margin-top: 1rem;
-            border-bottom: 1px solid var(--sage-light);
-            padding-bottom: 2px;
-        }
-
-        .info-detail {
-            font-family: 'Playfair Display', serif;
-            font-size: 1rem;
-            color: var(--text-main);
-            margin: 0.5rem 0 0.8rem;
-            max-width: 90%;
-        }
-
-        .btn-action {
-            border: 1px solid var(--sage-main);
-            padding: 0.6rem 2rem;
-            text-transform: uppercase;
-            font-size: 0.7rem;
-            letter-spacing: 1.5px;
-            font-weight: 600;
-            width: 100%;
-            max-width: 240px;
-            margin-bottom: 1rem;
-            transition: all 0.3s;
-            background: var(--sage-main);
-            color: var(--warm-base);
-        }
-
-        .btn-action:hover {
-            background: var(--sage-dark);
-            border-color: var(--sage-dark);
-            color: var(--warm-base);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: var(--sage-main);
-            border-color: var(--sage-main);
-        }
-
-        .btn-secondary:hover {
-            background: var(--sage-main);
-            color: var(--warm-base);
-        }
-
-        /* --- CONTADOR --- */
-        .countdown-wrapper {
-            position: absolute;
-            bottom: -40px;
-            left: 50%;
-            z-index: 50;
-            width: 100%;
-            max-width: 100vw;
-            opacity: 0;
-            transform: translateX(-50%) translateY(14px);
-            pointer-events: none;
-            transition: opacity 0.6s ease, transform 0.6s ease;
-        }
-
-        .countdown-wrapper.show {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
-            pointer-events: auto;
-        }
-
-        .countdown-container {
-            display: flex;
-            justify-content: center;
-            gap: 0.5rem;
-            padding: 0 0.5rem;
-            width: 100%;
-        }
-
-        .count-card {
-            flex: 1;
-            max-width: 85px;
-            min-width: 70px;
-            padding: 0.8rem 0.2rem;
-            background: var(--beige-soft); 
-            border-radius: 12px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 10px 20px rgba(95, 111, 82, 0.15);
-            color: var(--sage-dark); 
-            border: 1px solid rgba(255, 255, 255, 0.5);
-        }
-
-        .count-number {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
-            font-weight: 700;
-            line-height: 1;
-            margin-bottom: 4px;
-        }
-
-        .count-text {
-            font-size: 0.55rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            opacity: 0.8;
-            border-top: 1px solid rgba(95, 111, 82, 0.2);
-            padding-top: 4px;
-            width: 80%;
-            text-align: center;
-        }
-
-        /* --- GALLERY CAROUSEL --- */
-        .gallery-carousel-outer { 
-            width: 100%; 
-            overflow: hidden; 
-            position: relative; 
-            padding: 3rem 0; 
-            cursor: grab;
-        }
-
-        .gallery-track { 
-            display: flex; 
-            transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1); 
-            gap: 15px; 
-            width: max-content;
-            align-items: center;
-            will-change: transform;
-        }
-        
-        .gallery-postcard { 
-            background: white; 
-            padding: 8px; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
-            width: 240px; 
-            flex-shrink: 0;
-            user-select: none;
-            border-radius: 2px;
-            transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1), opacity 0.6s cubic-bezier(0.65, 0, 0.35, 1);
-            opacity: 0.4;
-            transform: scale(0.85);
-            color: var(--text-main);
-        }
-
-        @media (min-width: 768px) { 
-            .gallery-track { gap: 20px; }
-            .gallery-postcard { width: 400px; padding: 10px; } 
-        }
-
-        .gallery-postcard.active {
-            opacity: 1;
-            transform: scale(1.05);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
-            z-index: 20;
-        }
-
-        @media (min-width: 768px) {
-            .gallery-postcard.active { transform: scale(1.15); }
-        }
-        
-        .gallery-img-box { 
-            width: 100%; 
-            aspect-ratio: 3 / 2; 
-            overflow: hidden; 
-            background: var(--beige-soft); 
-            pointer-events: none;
-        }
-        .gallery-img-box img { width: 100%; height: 100%; object-fit: cover; }
-
-        .nav-btn {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: var(--warm-base);
-            color: var(--sage-dark);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 40;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .nav-btn:hover { background: var(--beige-soft); transform: translateY(-50%) scale(1.1); }
-        .prev-btn { left: 5px; }
-        .next-btn { right: 5px; }
-
-        .scroll-arrow {
-            position: absolute;
-            bottom: 100px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: var(--warm-base);
-            animation: bounceArrow 2s infinite;
-            cursor: pointer;
-            z-index: 30;
-        }
-
-        /* Secciones alternadas profundidad */
-        .bg-gallery-dark {
-            background-color: var(--sage-dark);
-            color: var(--warm-base);
-        }
-
-        /* --- NUEVA SECCION FIESTA --- */
-        .party-card {
-            background: white;
-            border-radius: 24px;
-            padding: 3rem 1.5rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            box-shadow: 0 15px 40px rgba(95, 111, 82, 0.08);
-            border: 1px solid rgba(95, 111, 82, 0.1);
-            transition: transform 0.3s ease;
-        }
-        .party-card:hover {
-            transform: translateY(-5px);
-        }
-        .party-card .icon-party-wrapper {
-            width: 120px;
-            height: 120px;
-            margin-bottom: 2rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: visible;
-        }
-        .party-card h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.65rem;
-            color: var(--sage-dark);
-            margin-bottom: 1rem;
-            font-weight: 700;
-        }
-        .party-card p {
-            font-size: 0.95rem;
-            line-height: 1.6;
-            color: var(--text-main);
-            opacity: 0.8;
-            margin-bottom: 2.5rem;
-            min-height: 3.5rem;
-        }
-        .party-card .btn-party {
-            background: white;
-            border: 1.5px solid var(--sage-main);
-            color: var(--sage-main);
-            border-radius: 50px;
-            padding: 0.8rem 2.5rem;
-            font-size: 0.8rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
-        }
-        .party-card .btn-party:hover {
-            background: var(--sage-main);
-            color: white;
-        }
-
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
 
     <!-- HERO SECTION -->
     <section class="hero-section">
         <div class="hero-bg"></div>
         <div class="hero-content">
-            <div class="playfair italic text-[10px] md:text-sm tracking-[3px] md:tracking-[5px] mb-4 md:mb-6 opacity-80 uppercase">
+            <div
+                class="playfair italic text-[10px] md:text-sm tracking-[3px] md:tracking-[5px] mb-4 md:mb-6 opacity-80 uppercase">
                 Estás invitado a celebrar
             </div>
             <h1 class="script text-6xl sm:text-7xl md:text-9xl mb-2 md:mb-4">Franco & Melina</h1>
-            <p class="playfair text-lg md:text-xl tracking-[5px] md:tracking-[8px] uppercase font-light mb-6 md:mb-8">12 &bull; 09 &bull; 2026</p>
-            
-            <div class="playfair text-sm md:text-xl tracking-[2px] md:tracking-[4px] font-light italic opacity-90 border-t border-b border-white/20 py-3 md:py-4 inline-block px-6 md:px-8">
+            <p class="playfair text-lg md:text-xl tracking-[5px] md:tracking-[8px] uppercase font-light mb-6 md:mb-8">12
+                &bull; 09 &bull; 2026</p>
+
+            <div
+                class="playfair text-sm md:text-xl tracking-[2px] md:tracking-[4px] font-light italic opacity-90 border-t border-b border-white/20 py-3 md:py-4 inline-block px-6 md:px-8">
                 Hoy empieza nuestro para siempre.
             </div>
         </div>
 
-        <!-- FLECHA SCROLL -->
-        <div class="scroll-arrow" onclick="document.getElementById('ceremonia-seccion').scrollIntoView({behavior: 'smooth'})">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M7 13l5 5 5-5M7 6l5 5 5-5"/>
+        <div class="scroll-arrow"
+            onclick="document.getElementById('ceremonia-seccion').scrollIntoView({behavior: 'smooth'})">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M7 13l5 5 5-5M7 6l5 5 5-5" />
             </svg>
         </div>
 
-        <!-- CONTADOR FLOTANTE -->
         <div class="countdown-wrapper" id="floatingCountdown">
             <div class="countdown-container">
                 <div class="count-card">
@@ -520,44 +63,50 @@
         </div>
     </section>
 
-    <!-- INFO SECCION (CEREMONIA Y FIESTA) -->
-    <section class="torn-section torn-edge-top torn-edge-bottom py-24 px-4 md:py-40" id="ceremonia-seccion">
-        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-center items-center md:items-start gap-12 md:gap-24 lg:gap-32">
+    <!-- CEREMONIA Y FIESTA -->
+    <section class="py-24 px-4 md:py-40 relative animate-section" id="ceremonia-seccion">
+        <!-- Decoración Superior -->
+        <div class="absolute top-0 left-0 w-full overflow-hidden leading-none">
+            <div class="golden-divider opacity-60 transform -scale-y-100"></div>
+        </div>
+        <div
+            class="max-w-6xl mx-auto flex flex-col md:flex-row justify-center items-center md:items-start gap-12 md:gap-24 lg:gap-32">
             <!-- Ceremonia -->
             <div class="info-card">
                 <div class="icon-wrapper">
-                    <svg class="icon-svg" viewBox="0 0 100 100" fill="none" stroke="var(--sage-main)" stroke-width="1.5">
+                    <svg class="icon-svg" viewBox="0 0 100 100" fill="none" stroke="var(--sage-main)"
+                        stroke-width="1.5">
                         <g class="animate-draw">
                             <circle cx="38" cy="62" r="22" />
                             <circle cx="62" cy="62" r="22" />
-                            <path d="M38 42 Q38 32 43 32 Q48 32 48 37 Q48 44 38 52 Q28 44 28 37 Q28 32 33 32 Q38 32 38 42" fill="var(--sage-main)" stroke="var(--sage-main)" stroke-width="1.5" />
+                            <path
+                                d="M38 42 Q38 32 43 32 Q48 32 48 37 Q48 44 38 52 Q28 44 28 37 Q28 32 33 32 Q38 32 38 42"
+                                fill="var(--sage-main)" stroke="var(--sage-main)" stroke-width="1.5" />
                         </g>
                     </svg>
                 </div>
                 <div class="banner-title">Ceremonia</div>
-                
                 <p class="info-label">Día</p>
                 <p class="info-detail">Sábado 12 de Septiembre - 17:00hs</p>
                 <button class="btn-action">Agendar Fecha</button>
-                
                 <p class="info-label">Lugar</p>
                 <p class="info-detail">Parroquia Nuestra Señora de Luján</p>
                 <button class="btn-action btn-secondary">Confirmar Asistencia</button>
-                
                 <p class="info-label">Dirección</p>
                 <p class="info-detail">Av. Pergamino 203 - CABA</p>
                 <button class="btn-action btn-secondary">¿Cómo Llegar?</button>
             </div>
 
-            <!-- Divisor PC -->
-            <div class="hidden md:block w-px bg-[#7A8C6B] h-96 self-center opacity-30"></div>
-            <!-- Divisor Mobile -->
-            <div class="md:hidden w-1/2 h-px bg-[#7A8C6B] my-4 opacity-30"></div>
+            <div class="hidden md:block w-px bg-[#C5A059] h-96 self-center opacity-60"></div>
+            <div class="md:hidden w-full px-12 my-8">
+                <div class="golden-divider"></div>
+            </div>
 
             <!-- Fiesta -->
             <div class="info-card">
                 <div class="icon-wrapper">
-                    <svg class="icon-svg" viewBox="0 0 100 100" fill="none" stroke="var(--sage-main)" stroke-width="1.5">
+                    <svg class="icon-svg" viewBox="0 0 100 100" fill="none" stroke="var(--sage-main)"
+                        stroke-width="1.5">
                         <g class="animate-draw">
                             <path d="M20 85 L80 85" stroke-width="2" stroke-linecap="round" />
                             <rect x="25" y="60" width="50" height="25" rx="3" />
@@ -569,15 +118,12 @@
                     </svg>
                 </div>
                 <div class="banner-title">Fiesta</div>
-                
                 <p class="info-label">Día</p>
                 <p class="info-detail">Sábado 12 de Septiembre - 20:30hs</p>
                 <button class="btn-action">Agendar Fecha</button>
-                
                 <p class="info-label">Lugar</p>
                 <p class="info-detail">Salón de fiestas Abril</p>
                 <button class="btn-action btn-secondary">Confirmar Asistencia</button>
-                
                 <p class="info-label">Dirección</p>
                 <p class="info-detail">Av. Los Reartes 12 - Bs As</p>
                 <button class="btn-action btn-secondary">¿Cómo Llegar?</button>
@@ -585,31 +131,39 @@
         </div>
     </section>
 
-    <!-- HISTORIA / GALERÍA -->
+    <!-- GALERÍA -->
     <section class="py-24 bg-gallery-dark overflow-hidden" id="gallery">
         <div class="max-w-7xl mx-auto text-center relative px-4">
             <h2 class="script text-5xl md:text-6xl mb-4 text-[#F6F3EE]">Nuestra Historia</h2>
-            <p class="playfair italic text-xs md:text-sm opacity-80 tracking-[3px] md:tracking-[4px] mb-12 uppercase text-[#F6F3EE]">Instantes que atesoramos</p>
-            
+            <p
+                class="playfair italic text-xs md:text-sm opacity-80 tracking-[3px] md:tracking-[4px] mb-12 uppercase text-[#F6F3EE]">
+                Instantes que atesoramos</p>
             <div class="gallery-carousel-outer" id="galleryCarousel">
                 <div class="nav-btn prev-btn" id="galleryPrev">❮</div>
                 <div class="nav-btn next-btn" id="galleryNext">❯</div>
-                
                 <div class="gallery-track" id="galleryTrack">
                     <div class="gallery-postcard">
-                        <div class="gallery-img-box"><img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=800" alt="Nuestra primera cita"></div>
+                        <div class="gallery-img-box"><img
+                                src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=800"
+                                alt="Nuestra primera cita"></div>
                         <p class="mt-3 playfair italic text-sm">Nuestra primera cita</p>
                     </div>
                     <div class="gallery-postcard">
-                        <div class="gallery-img-box"><img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=800" alt="Caminos recorridos"></div>
+                        <div class="gallery-img-box"><img
+                                src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=800"
+                                alt="Caminos recorridos"></div>
                         <p class="mt-3 playfair italic text-sm">Caminos recorridos</p>
                     </div>
                     <div class="gallery-postcard">
-                        <div class="gallery-img-box"><img src="https://images.unsplash.com/photo-1522673607200-1648832cee98?q=80&w=800" alt="El compromiso"></div>
+                        <div class="gallery-img-box"><img
+                                src="https://images.unsplash.com/photo-1522673607200-1648832cee98?q=80&w=800"
+                                alt="El compromiso"></div>
                         <p class="mt-3 playfair italic text-sm">El compromiso</p>
                     </div>
                     <div class="gallery-postcard">
-                        <div class="gallery-img-box"><img src="https://images.unsplash.com/photo-1460364155651-6490d828c729?q=80&w=800" alt="Nuestras aventuras"></div>
+                        <div class="gallery-img-box"><img
+                                src="https://images.unsplash.com/photo-1460364155651-6490d828c729?q=80&w=800"
+                                alt="Nuestras aventuras"></div>
                         <p class="mt-3 playfair italic text-sm">Nuestras aventuras</p>
                     </div>
                 </div>
@@ -617,21 +171,23 @@
         </div>
     </section>
 
-    <!-- SECCION DETALLES FIESTA -->
-    <section class="torn-section torn-edge-top py-24 md:py-32 bg-[#F6F3EE]" id="party-details">
+    <!-- DETALLES FIESTA -->
+    <section class="py-24 md:py-32 bg-[#F6F3EE] relative" id="party-details">
         <div class="max-w-6xl mx-auto px-6 text-center">
             <h2 class="script text-5xl md:text-6xl mb-4 text-[#5F6F52]">Fiesta</h2>
-            <p class="playfair italic text-sm md:text-base opacity-70 mb-16">Hagamos juntos una fiesta épica. Aquí algunos detalles a tener en cuenta.</p>
-            
+            <p class="playfair italic text-sm md:text-base opacity-70 mb-16">Hagamos juntos una fiesta épica. Aquí
+                algunos detalles a tener en cuenta.</p>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
                 <!-- Musica -->
                 <div class="party-card torn-section">
                     <div class="icon-party-wrapper">
-                        <svg class="w-full h-full" viewBox="0 0 100 100" fill="none" stroke="var(--sage-main)" stroke-width="1.8">
+                        <svg class="w-full h-full" viewBox="0 0 100 100" fill="none" stroke="var(--sage-main)"
+                            stroke-width="1.8">
                             <g class="animate-draw">
-                                <path d="M40 75 Q40 85 30 85 Q20 85 20 75 Q20 65 30 65 Q40 65 40 75 L40 25 L80 15 L80 65 Q80 75 70 75 Q60 75 60 65 Q60 55 70 55 Q80 55 80 65" stroke-linecap="round" stroke-linejoin="round" />
-                                <circle cx="45" cy="35" r="1.5" fill="var(--sage-main)" />
-                                <circle cx="75" cy="25" r="1.5" fill="var(--sage-main)" />
+                                <!-- Nota musical -->
+                                <path
+                                    d="M40 75 Q40 85 30 85 Q20 85 20 75 Q20 65 30 65 Q40 65 40 75 L40 25 L80 15 L80 65 Q80 75 70 75 Q60 75 60 65 Q60 55 70 55 Q80 55 80 65"
+                                    stroke-linecap="round" stroke-linejoin="round" />
                             </g>
                         </svg>
                     </div>
@@ -643,14 +199,12 @@
                 <!-- Dress Code -->
                 <div class="party-card torn-section">
                     <div class="icon-party-wrapper">
-                        <svg class="w-full h-full" viewBox="0 0 100 100" fill="none" stroke="var(--sage-main)" stroke-width="1.8">
+                        <svg class="w-full h-full" viewBox="0 0 100 100" fill="none" stroke="var(--sage-main)"
+                            stroke-width="1.8">
                             <g class="animate-draw">
-                                <!-- Moño Elegante -->
-                                <path d="M50 50 L30 35 Q20 35 20 50 Q20 65 30 65 Z" fill="none" />
-                                <path d="M50 50 L70 35 Q80 35 80 50 Q80 65 70 65 Z" fill="none" />
-                                <rect x="44" y="44" width="12" height="12" rx="6" />
-                                <path d="M25 45 L25 55" opacity="0.3" />
-                                <path d="M75 45 L75 55" opacity="0.3" />
+                                <path d="M50 50 L30 35 Q20 35 20 50 Q20 65 30 65 Z" />
+                                <path d="M50 50 L70 35 Q80 35 80 50 Q80 65 70 65 Z" />
+                                <circle cx="50" cy="50" r="7" fill="var(--sage-main)" />
                             </g>
                         </svg>
                     </div>
@@ -662,13 +216,11 @@
                 <!-- Tips y Notas -->
                 <div class="party-card torn-section">
                     <div class="icon-party-wrapper">
-                        <svg class="w-full h-full" viewBox="0 0 100 100" fill="none" stroke="var(--sage-main)" stroke-width="1.8">
+                        <svg class="w-full h-full" viewBox="0 0 100 100" fill="none" stroke="var(--sage-main)"
+                            stroke-width="1.8">
                             <g class="animate-draw">
                                 <rect x="30" y="25" width="40" height="55" rx="2" />
                                 <path d="M40 25 L40 20 Q40 15 50 15 Q60 15 60 20 L60 25" />
-                                <line x1="40" y1="45" x2="60" y2="45" opacity="0.4" />
-                                <line x1="40" y1="55" x2="60" y2="55" opacity="0.4" />
-                                <line x1="40" y1="65" x2="52" y2="65" opacity="0.4" />
                                 <circle cx="50" cy="35" r="3" stroke-width="1.2" />
                             </g>
                         </svg>
@@ -682,137 +234,18 @@
     </section>
 
     <!-- FOOTER -->
-    <footer class="torn-section torn-edge-top py-20 text-center">
+    <footer class="py-20 text-center relative bg-[#F6F3EE]">
+        <!-- Decoración Superior -->
+        <div class="absolute top-0 left-0 w-full overflow-hidden leading-none">
+            <div class="golden-divider opacity-60"></div>
+        </div>
         <div class="px-6">
             <p class="script text-4xl mb-4 text-[#5F6F52]">¡Te esperamos!</p>
             <p class="playfair text-[10px] tracking-[4px] uppercase opacity-50">Franco & Melina &bull; 2026</p>
         </div>
     </footer>
 
-    <script>
-        // Visibilidad del contador flotante
-        const floatingCountdown = document.getElementById('floatingCountdown');
-        const SCROLL_THRESHOLD = 80;
-
-        function handleScroll() {
-            if (window.scrollY > SCROLL_THRESHOLD) {
-                floatingCountdown.classList.add('show');
-            } else {
-                floatingCountdown.classList.remove('show');
-            }
-        }
-        window.addEventListener('scroll', handleScroll);
-        handleScroll();
-
-        // Reveal de bordes rasgados y activación de animaciones SVG
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('reveal-edge');
-                    entry.target.classList.add('is-visible');
-                }
-            });
-        }, { threshold: 0.15 });
-
-        document.querySelectorAll('.torn-section').forEach(el => observer.observe(el));
-
-        // Lógica del Contador
-        const targetDate = new Date("September 12, 2026 17:00:00").getTime();
-        function updateCountdown() {
-            const now = new Date().getTime();
-            const diff = targetDate - now;
-            if (diff < 0) return;
-            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const s = Math.floor((diff % (1000 * 60)) / 1000);
-            document.getElementById("days").innerText = d.toString().padStart(2, '0');
-            document.getElementById("hours").innerText = h.toString().padStart(2, '0');
-            document.getElementById("minutes").innerText = m.toString().padStart(2, '0');
-            document.getElementById("seconds").innerText = s.toString().padStart(2, '0');
-        }
-        setInterval(updateCountdown, 1000);
-        updateCountdown();
-
-        // --- CARRUSEL INFINITO CORREGIDO ---
-        const track = document.getElementById('galleryTrack');
-        const outer = document.getElementById('galleryCarousel');
-        const nextBtn = document.getElementById('galleryNext');
-        const prevBtn = document.getElementById('galleryPrev');
-        const originalCards = Array.from(track.children);
-        const cardCount = originalCards.length;
-        
-        // Creamos copias para un scroll infinito suave
-        for(let i=0; i<6; i++) {
-            originalCards.forEach(card => track.appendChild(card.cloneNode(true)));
-        }
-        
-        // Empezamos en un set central de clones
-        let currentIndex = cardCount * 3; 
-        let isTransitioning = false, autoPlayInterval;
-
-        function updateCarousel(instant = false) {
-            const containerWidth = outer.offsetWidth;
-            if (!containerWidth) return;
-            
-            const items = Array.from(track.children);
-            const cardWidth = items[0].offsetWidth;
-            const gap = containerWidth < 768 ? 15 : 20;
-            
-            // Calculamos el desplazamiento necesario para centrar la tarjeta activa
-            const offset = (currentIndex * (cardWidth + gap)) - (containerWidth / 2) + (cardWidth / 2);
-            
-            // Desactivamos transición si es un salto instantáneo (reinicio de bucle)
-            track.style.transition = instant ? 'none' : 'transform 0.6s cubic-bezier(0.65, 0, 0.35, 1)';
-            track.style.transform = `translateX(${-offset}px)`;
-            
-            // Actualizamos estados visuales (escala y opacidad)
-            items.forEach((item, index) => {
-                if (index === currentIndex) {
-                    item.classList.add('active');
-                } else {
-                    item.classList.remove('active');
-                }
-            });
-        }
-
-        function move(direction) {
-            if (isTransitioning) return;
-            isTransitioning = true;
-
-            currentIndex = (direction === 'next') ? currentIndex + 1 : currentIndex - 1;
-            updateCarousel();
-            
-            // El salto instantáneo ocurre DESPUÉS de que termina la transición visual (600ms)
-            setTimeout(() => {
-                // Si nos alejamos demasiado del centro, reseteamos la posición a un clon idéntico en el centro
-                if (currentIndex >= cardCount * 5 || currentIndex <= cardCount) {
-                    currentIndex = (currentIndex % cardCount) + (cardCount * 3);
-                    updateCarousel(true); // Salto sin animación
-                }
-                isTransitioning = false;
-            }, 600); 
-        }
-
-        function startAutoPlay() { 
-            clearInterval(autoPlayInterval); 
-            autoPlayInterval = setInterval(() => move('next'), 4000); 
-        }
-
-        nextBtn.addEventListener('click', () => { move('next'); startAutoPlay(); });
-        prevBtn.addEventListener('click', () => { move('prev'); startAutoPlay(); });
-        
-        // Manejo de redimensionamiento para recalcular el centro
-        let resizeTimer;
-        window.addEventListener('resize', () => {
-            clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(() => updateCarousel(true), 100);
-        });
-        
-        window.onload = () => { 
-            updateCarousel(true); 
-            startAutoPlay(); 
-        };
-    </script>
+    <script src="main.js"></script>
 </body>
+
 </html>
