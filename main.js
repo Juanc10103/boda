@@ -18,7 +18,9 @@ const observer = new IntersectionObserver((entries) => {
         }
     });
 }, { threshold: 0.15 });
-document.querySelectorAll('.torn-section, .animate-section').forEach(el => observer.observe(el));
+
+// Observamos secciones y ahora también las flores
+document.querySelectorAll('.torn-section, .animate-section, .invitation-flower').forEach(el => observer.observe(el));
 
 const targetDate = new Date("September 12, 2026 17:00:00").getTime();
 function updateCountdown() {
