@@ -99,6 +99,19 @@ function move(dir) {
     }, 600);
 }
 
+function toggleInfo() {
+    const infoBox = document.getElementById('info-box');
+    if (infoBox.style.display === 'block') {
+        infoBox.style.display = 'none';
+    } else {
+        infoBox.style.display = 'block';
+        // Animación de scroll suave hacia el contenido nuevo
+        setTimeout(() => {
+            infoBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 100);
+    }
+}
+
 document.getElementById('galleryNext').onclick = () => move('next');
 document.getElementById('galleryPrev').onclick = () => move('prev');
 window.addEventListener('resize', () => updateCarousel(true));

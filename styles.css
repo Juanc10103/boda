@@ -123,42 +123,6 @@ body {
     }
 }
 
-/* --- EFECTO PAPEL RASGADO SIMÉTRICO --- */
-.torn-edge-symmetric-top::before {
-    content: "";
-    position: absolute;
-    top: -2px;
-    left: 0;
-    width: 100%;
-    height: 80px;
-    background-repeat: repeat-x;
-    background-size: 150px 80px;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 150 80' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,80 L0,30 Q8,35 12,25 Q16,15 20,22 Q24,30 28,18 Q32,6 36,14 Q40,22 44,12 Q48,2 52,10 Q56,18 60,8 Q64,0 68,8 Q72,16 76,6 Q80,0 84,10 Q88,20 92,10 Q96,0 100,8 Q104,16 108,6 Q112,0 116,10 Q120,20 124,12 Q128,4 132,14 Q136,24 140,16 Q144,8 148,18 Q150,24 150,30 L150,80 Z' fill='%234E5D43'/%3E%3C/svg%3E");
-    opacity: 0;
-    pointer-events: none;
-    z-index: 1;
-}
-
-.torn-edge-symmetric-bottom::after {
-    content: "";
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    width: 100%;
-    height: 80px;
-    background-repeat: repeat-x;
-    background-size: 150px 80px;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 150 80' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,0 L0,50 Q8,45 12,55 Q16,65 20,58 Q24,50 28,62 Q32,74 36,66 Q40,58 44,68 Q48,78 52,70 Q56,62 60,72 Q64,80 68,72 Q72,64 76,74 Q80,80 84,70 Q88,60 92,70 Q96,80 100,72 Q104,64 108,74 Q112,80 116,70 Q120,60 124,68 Q128,76 132,66 Q136,56 140,64 Q144,72 148,62 Q150,56 150,50 L150,0 Z' fill='%234E5D43'/%3E%3C/svg%3E");
-    opacity: 0;
-    pointer-events: none;
-    z-index: 1;
-}
-
-.reveal-edge-symmetric::before,
-.reveal-edge-symmetric::after {
-    opacity: 1;
-    transition: opacity 1.5s ease;
-}
 
 .animate-draw {
     stroke-dasharray: 450;
@@ -176,68 +140,6 @@ body {
     transform-origin: center;
 }
 
-/* --- SECCIONES RASGADAS --- */
-.torn-section {
-    position: relative;
-    background-color: var(--paper-color);
-    z-index: 10;
-    margin-top: -2px;
-    border-top: 1px solid var(--paper-color);
-}
-
-.torn-edge-top::before {
-    content: "";
-    position: absolute;
-    top: -41px;
-    left: 0;
-    width: 100%;
-    height: 44px;
-    background-repeat: repeat-x;
-    background-size: 1200px 44px;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1200 40' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 40h1200V20c-100 0-200 10-300 10s-200-10-300-10-200 10-300 10-200-10-300-10z' fill='%23F6F3EE'/%3E%3C/svg%3E");
-    opacity: 0;
-    pointer-events: none;
-    transform: scaleY(1.15);
-    animation: waveMove 35s linear infinite;
-}
-
-.torn-edge-bottom::after {
-    content: "";
-    position: absolute;
-    bottom: -41px;
-    left: 0;
-    width: 100%;
-    height: 44px;
-    background-repeat: repeat-x;
-    background-size: 1200px 44px;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1200 40' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h1200v20c-100 0-200-10-300-10s-200 10-300 10-200-10-300-10 200 10-300 10z' fill='%23F6F3EE'/%3E%3C/svg%3E");
-    opacity: 0;
-    pointer-events: none;
-    transform: scaleY(1.15);
-    animation: waveMove 45s linear infinite reverse;
-}
-
-.reveal-edge::before,
-.reveal-edge::after {
-    opacity: 1;
-    transition: opacity 1.5s ease;
-}
-
-.reveal-edge::before {
-    animation: fadeInTear 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards, waveMove 35s linear infinite;
-}
-
-.reveal-edge::after {
-    animation: fadeInTear 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards, waveMove 45s linear infinite reverse;
-}
-
-.reveal-edge-symmetric::before {
-    animation: fadeInTear 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}
-
-.reveal-edge-symmetric::after {
-    animation: fadeInTear 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}
 
 /* --- HERO --- */
 .hero-section {
@@ -680,84 +582,235 @@ body {
     mix-blend-mode: overlay;
 }
 
-/* --- DECORACIONES FLORALES --- */
-.invitation-flower {
-    position: absolute;
-    z-index: 5;
-    pointer-events: none;
-    opacity: 0;
-    transition: all 1.5s cubic-bezier(0.22, 1, 0.36, 1);
-    max-width: 30vw;
-    /* Más pequeñas en móvil para no tapar texto */
+
+
+/*-------- regalos seccion------------ */
+
+/* Necesito que la seccion de regalos este centrada, tanto la imagen que utilizo como la informacion que va adentro de la imagen */
+
+.body-gift {
+    margin: 0;
+    padding: 0;
+    background-color: var(--warm-base);
+    font-family: 'Montserrat', sans-serif;
+    color: var(--text-main);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+
 }
 
-@media (min-width: 768px) {
-    .invitation-flower {
-        max-width: 18vw;
+
+
+.gifts-section {
+    text-align: center;
+    padding: 60px 20px;
+    max-width: 1200px;
+    width: 100%;
+    position: relative;
+}
+
+.gifts-section img {
+    background-color: var(--sage-dark);
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%) translateY(-20%);
+    width: 100%;
+    height: auto;
+    z-index: 0;
+    opacity: 0.80;
+}
+
+h2 {
+    font-family: 'Great Vibes', cursive;
+    font-size: 3.5rem;
+    color: var(--sage-main);
+    margin-bottom: 10px;
+    font-weight: normal;
+}
+
+.subtext {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    font-style: italic;
+    color: var(--text-main);
+    opacity: 0.8;
+}
+
+/* Contenedor del Icono con Animación Automática */
+.gift-icon-container {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 20px auto;
+    position: relative;
+}
+
+.gift-svg {
+    width: 100%;
+    height: 100%;
+    stroke: var(--sage-main);
+    fill: none;
+    stroke-width: 1.5;
+    animation: bounceAndOpen 3s infinite ease-in-out;
+}
+
+@keyframes bounceAndOpen {
+
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+        transform: translateY(0) scale(1) rotate(0);
+    }
+
+    10% {
+        transform: translateY(-25px) scale(1.05);
+    }
+
+    30% {
+        transform: scale(1.1) rotate(5deg);
+    }
+
+    40% {
+        transform: scale(1.1) rotate(-5deg);
     }
 }
 
-/* Posiciones Relativas a Contenedores */
-.flower-top-left {
-    top: -2%;
-    left: -2%;
-    transform: translate(-20px, -20px) rotate(-5deg);
+/* Estilo del Botón + INFO */
+.btn-info {
+    display: inline-block;
+    padding: 12px 40px;
+    border: 1px solid white;
+    background-color: transparent;
+    color: white;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 0.85rem;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    cursor: pointer;
 }
 
-.flower-top-right {
-    top: -2%;
-    right: -2%;
-    transform: translate(20px, -20px) rotate(5deg);
+.btn-info:hover {
+    background-color: var(--sage-main);
+    color: white;
 }
 
-.flower-bottom-left {
-    bottom: -2%;
-    left: -2%;
-    transform: translate(-20px, 20px) rotate(5deg);
+/* Ventana de información decorada */
+#info-box {
+    display: none;
+    margin: 30px auto 0 auto;
+    padding: 30px;
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+    max-width: 400px;
+    border: 1px solid var(--beige-soft);
+    position: relative;
+    animation: fadeIn 0.6s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-.flower-bottom-right {
-    bottom: -2%;
-    right: -2%;
-    transform: translate(20px, 20px) rotate(-5deg);
+/* Detalle decorativo interno del modal */
+#info-box::before {
+    content: "";
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    border: 1px solid var(--beige-soft);
+    border-radius: 15px;
+    pointer-events: none;
 }
 
-/* Variaciones para centros o costados */
-.flower-side-left {
-    top: 20%;
-    left: -5%;
-    transform: translateX(-30px);
+.info-title {
+    color: var(--sage-main);
+    font-weight: 500;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+    text-transform: uppercase;
 }
 
-.flower-side-right {
-    top: 60%;
-    right: -5%;
-    transform: translateX(30px);
+.info-data {
+    font-size: 1.1rem;
+    color: var(--text-main);
+    margin: 10px 0;
+    word-break: break-all;
 }
 
-/* Estado visible */
-.invitation-flower.is-visible {
-    opacity: 0.85;
-    /* Un poco transparente para mezclarse mejor */
-    transform: translate(0, 0) rotate(0deg);
+.info-label {
+    font-size: 0.75rem;
+    color: var(--gold-accent);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 15px;
+    display: block;
 }
 
-.flower-center-right {
-    top: 50%;
-    right: -8%;
-    transform: translateY(-50%) translateX(40px);
+.thanks-msg {
+    font-family: 'Great Vibes', cursive;
+    font-size: 1.8rem;
+    color: var(--sage-light);
+    margin-top: 20px;
 }
 
-/* Estado visible */
-.invitation-flower.is-visible {
-    opacity: 0.9;
-    transform: translate(0, 0) rotate(0deg);
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-.delay-500 {
-    transition-delay: 0.5s;
+
+/* Ahora necesito hacer responsive la seccion de regalos, tanto como para mobile(mas importante) y tablet. Pero par tamaños de mobile  necesito que en vez de la imagen que se llama fondosregalos.png, se utilice regalosvert.png. Ademas toda la informacion tiene que estar completamente centrada*/
+
+
+@media (max-width: 767px) {
+    .gifts-section img {
+        content: url('./assets/regalosvert.png');
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%) translateY(-10%);
+        width: 100%;
+        height: auto;
+    }
+
+    .gifts-section h2 {
+        font-size: 2.5rem;
+    }
+
+    .subtext {
+        font-size: 0.9rem;
+    }
 }
 
-.delay-1000 {
-    transition-delay: 1s;
+@media (min-width: 768px) and (max-width: 1023px) {
+    .gifts-section img {
+        content: url('./assets/regalosvert.png');
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%) translateY(-15%);
+        width: 100%;
+        height: auto;
+    }
+
+    .gifts-section h2 {
+        font-size: 3rem;
+    }
+
+    .subtext {
+        font-size: 1rem;
+    }
 }
+
