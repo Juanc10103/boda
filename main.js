@@ -99,6 +99,19 @@ function move(dir) {
     }, 600);
 }
 
+function toggleInfo() {
+    const infoBox = document.getElementById('info-box');
+    if (infoBox.style.display === 'block') {
+        infoBox.style.display = 'none';
+    } else {
+        infoBox.style.display = 'block';
+        // Animación de scroll suave hacia el contenido nuevo
+        setTimeout(() => {
+            infoBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 100);
+    }
+}
+
 document.getElementById('galleryNext').onclick = () => move('next');
 document.getElementById('galleryPrev').onclick = () => move('prev');
 window.addEventListener('resize', () => updateCarousel(true));
@@ -108,3 +121,21 @@ window.onload = () => {
     // Intervalo automático
     setInterval(() => move('next'), 4000);
 };
+
+
+
+
+// -------Regalos-------
+
+function openModal() {
+    const modal = document.getElementById('giftModal');
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeModal(event) {
+    // Cerramos si el evento es nulo (botón X) o si se hace clic fuera del contenido
+    const modal = document.getElementById('giftModal');
+    modal.classList.remove('active');
+    document.body.style.overflow = 'auto';
+}

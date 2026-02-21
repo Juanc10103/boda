@@ -123,42 +123,6 @@ body {
     }
 }
 
-/* --- EFECTO PAPEL RASGADO SIMÉTRICO --- */
-.torn-edge-symmetric-top::before {
-    content: "";
-    position: absolute;
-    top: -2px;
-    left: 0;
-    width: 100%;
-    height: 80px;
-    background-repeat: repeat-x;
-    background-size: 150px 80px;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 150 80' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,80 L0,30 Q8,35 12,25 Q16,15 20,22 Q24,30 28,18 Q32,6 36,14 Q40,22 44,12 Q48,2 52,10 Q56,18 60,8 Q64,0 68,8 Q72,16 76,6 Q80,0 84,10 Q88,20 92,10 Q96,0 100,8 Q104,16 108,6 Q112,0 116,10 Q120,20 124,12 Q128,4 132,14 Q136,24 140,16 Q144,8 148,18 Q150,24 150,30 L150,80 Z' fill='%234E5D43'/%3E%3C/svg%3E");
-    opacity: 0;
-    pointer-events: none;
-    z-index: 1;
-}
-
-.torn-edge-symmetric-bottom::after {
-    content: "";
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    width: 100%;
-    height: 80px;
-    background-repeat: repeat-x;
-    background-size: 150px 80px;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 150 80' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,0 L0,50 Q8,45 12,55 Q16,65 20,58 Q24,50 28,62 Q32,74 36,66 Q40,58 44,68 Q48,78 52,70 Q56,62 60,72 Q64,80 68,72 Q72,64 76,74 Q80,80 84,70 Q88,60 92,70 Q96,80 100,72 Q104,64 108,74 Q112,80 116,70 Q120,60 124,68 Q128,76 132,66 Q136,56 140,64 Q144,72 148,62 Q150,56 150,50 L150,0 Z' fill='%234E5D43'/%3E%3C/svg%3E");
-    opacity: 0;
-    pointer-events: none;
-    z-index: 1;
-}
-
-.reveal-edge-symmetric::before,
-.reveal-edge-symmetric::after {
-    opacity: 1;
-    transition: opacity 1.5s ease;
-}
 
 .animate-draw {
     stroke-dasharray: 450;
@@ -176,68 +140,6 @@ body {
     transform-origin: center;
 }
 
-/* --- SECCIONES RASGADAS --- */
-.torn-section {
-    position: relative;
-    background-color: var(--paper-color);
-    z-index: 10;
-    margin-top: -2px;
-    border-top: 1px solid var(--paper-color);
-}
-
-.torn-edge-top::before {
-    content: "";
-    position: absolute;
-    top: -41px;
-    left: 0;
-    width: 100%;
-    height: 44px;
-    background-repeat: repeat-x;
-    background-size: 1200px 44px;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1200 40' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 40h1200V20c-100 0-200 10-300 10s-200-10-300-10-200 10-300 10-200-10-300-10z' fill='%23F6F3EE'/%3E%3C/svg%3E");
-    opacity: 0;
-    pointer-events: none;
-    transform: scaleY(1.15);
-    animation: waveMove 35s linear infinite;
-}
-
-.torn-edge-bottom::after {
-    content: "";
-    position: absolute;
-    bottom: -41px;
-    left: 0;
-    width: 100%;
-    height: 44px;
-    background-repeat: repeat-x;
-    background-size: 1200px 44px;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1200 40' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h1200v20c-100 0-200-10-300-10s-200 10-300 10-200-10-300-10 200 10-300 10z' fill='%23F6F3EE'/%3E%3C/svg%3E");
-    opacity: 0;
-    pointer-events: none;
-    transform: scaleY(1.15);
-    animation: waveMove 45s linear infinite reverse;
-}
-
-.reveal-edge::before,
-.reveal-edge::after {
-    opacity: 1;
-    transition: opacity 1.5s ease;
-}
-
-.reveal-edge::before {
-    animation: fadeInTear 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards, waveMove 35s linear infinite;
-}
-
-.reveal-edge::after {
-    animation: fadeInTear 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards, waveMove 45s linear infinite reverse;
-}
-
-.reveal-edge-symmetric::before {
-    animation: fadeInTear 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}
-
-.reveal-edge-symmetric::after {
-    animation: fadeInTear 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}
 
 /* --- HERO --- */
 .hero-section {
@@ -440,10 +342,20 @@ body {
     text-align: center;
 }
 
+.scroll-arrow {
+    position: absolute;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--warm-base);
+    animation: bounceArrow 2s infinite;
+    cursor: pointer;
+    z-index: 30;
+}
+
 /* --- GALLERY CAROUSEL --- */
 .gallery-carousel-outer {
     width: 100%;
-    overflow: hidden;
     position: relative;
     padding: 3rem 0;
     cursor: grab;
@@ -463,7 +375,6 @@ body {
     padding: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     width: 280px;
-
     flex-shrink: 0;
     user-select: none;
     border-radius: 2px;
@@ -471,6 +382,7 @@ body {
     opacity: 0.4;
     transform: scale(0.85);
     color: var(--text-main);
+
 }
 
 @media (min-width: 768px) {
@@ -484,10 +396,15 @@ body {
     }
 }
 
+@media (min-width: 1px) {
+    .gallery-carousel-outer {
+        overflow: hidden;
+    }
+}
+
 .gallery-postcard.active {
     opacity: 1;
     transform: scale(1.1);
-
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
     z-index: 20;
 }
@@ -512,46 +429,6 @@ body {
     object-fit: cover;
 }
 
-.nav-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: var(--warm-base);
-    color: var(--sage-dark);
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 40;
-    cursor: pointer;
-    transition: all 0.3s;
-}
-
-.nav-btn:hover {
-    background: var(--beige-soft);
-    transform: translateY(-50%) scale(1.1);
-}
-
-.prev-btn {
-    left: 5px;
-}
-
-.next-btn {
-    right: 5px;
-}
-
-.scroll-arrow {
-    position: absolute;
-    bottom: 100px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: var(--warm-base);
-    animation: bounceArrow 2s infinite;
-    cursor: pointer;
-    z-index: 30;
-}
 
 .bg-gallery-dark {
     background-color: var(--sage-dark);
@@ -760,4 +637,253 @@ body {
 
 .delay-1000 {
     transition-delay: 1s;
+}
+
+/*-------- regalos seccion------------ */
+
+.page-wrapper {
+    padding: 20px;
+    background: linear-gradient(to bottom,
+            var(--warm-base) 0%,
+            var(--sage-dark) 50%,
+            var(--warm-base) 100%);
+    /* Margen mínimo para que la tarjeta no pegue al borde en mobile */
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* La Tarjeta Principal */
+.gifts-card {
+    background-color: var(--card-bg);
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)),
+        url("https://www.transparenttextures.com/patterns/cream-pixels.png");
+
+    text-align: center;
+    /* Padding dinámico: más pequeño en mobile, más grande en desktop */
+    padding: clamp(40px, 8vw, 80px) clamp(20px, 5vw, 40px);
+    max-width: 550px;
+    width: 100%;
+    position: relative;
+    z-index: 2;
+    border-radius: 4px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
+    border: 1px solid var(--beige-soft);
+}
+
+
+.gifts-card h2 {
+    font-family: 'Great Vibes', cursive;
+    /* Tamaño de fuente fluido para h2 */
+    font-size: clamp(2.5rem, 12vw, 4rem);
+    color: var(--sage-main);
+    margin: 0 0 15px 0;
+    font-weight: normal;
+    line-height: 1.2;
+}
+
+/* Marco decorativo interno */
+.gifts-card::after {
+    content: "";
+    position: absolute;
+    top: clamp(8px, 2vw, 15px);
+    left: clamp(8px, 2vw, 15px);
+    right: clamp(8px, 2vw, 15px);
+    bottom: clamp(8px, 2vw, 15px);
+    border: 1px solid var(--gold-accent);
+    opacity: 0.3;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.separator-line {
+    width: 60%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold-accent), transparent);
+    margin: 0 auto clamp(20px, 5vw, 40px) auto;
+    opacity: 0.5;
+}
+
+
+.subtext {
+    /* Tamaño de fuente fluido para el texto */
+    font-size: clamp(0.95rem, 3vw, 1.1rem);
+    line-height: 1.6;
+    margin-bottom: clamp(30px, 8vw, 50px);
+    font-style: italic;
+    color: var(--text-main);
+    opacity: 0.9;
+    padding: 0 10px;
+}
+
+.gift-icon-container {
+    width: clamp(70px, 15vw, 100px);
+    height: clamp(70px, 15vw, 100px);
+    margin: 0 auto clamp(30px, 8vw, 40px) auto;
+}
+
+.gift-svg {
+    width: 100%;
+    height: 100%;
+    stroke: var(--sage-main);
+    fill: none;
+    stroke-width: 1.2;
+    animation: bounceAndOpen 4s infinite ease-in-out;
+}
+
+@keyframes bounceAndOpen {
+
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+        transform: translateY(0) scale(1);
+    }
+
+    10% {
+        transform: translateY(-10px) scale(1.05);
+    }
+
+    30% {
+        transform: rotate(3deg);
+    }
+
+    40% {
+        transform: rotate(-3deg);
+    }
+}
+
+.btn-info {
+    display: inline-block;
+    padding: 15px clamp(25px, 6vw, 45px);
+    border: 1px solid white;
+    background-color: var(--sage-main);
+    color: white;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: clamp(0.7rem, 2vw, 0.75rem);
+    transition: all 0.4s ease;
+    cursor: pointer;
+    width: auto;
+    max-width: 100%;
+}
+
+@media (hover: hover) {
+    .btn-info:hover {
+        background-color: var(--sage-main);
+        color: white;
+        letter-spacing: 4px;
+    }
+}
+
+/* --- ESTILOS DEL MODAL RESPONSIVE --- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(47, 42, 38, 0.6);
+    backdrop-filter: blur(8px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    padding: 20px;
+}
+
+.modal-overlay.active {
+    display: flex;
+    opacity: 1;
+}
+
+.modal-content {
+    background: white;
+    background-image: url("https://www.transparenttextures.com/patterns/cream-pixels.png");
+    padding: clamp(40px, 10vw, 60px) 25px;
+    max-width: 450px;
+    width: 100%;
+    position: relative;
+    text-align: center;
+    border-radius: 4px;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--beige-soft);
+    transform: translateY(20px);
+    transition: transform 0.4s ease;
+    /* Para que en pantallas muy bajas el modal sea scrolleable */
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-overlay.active .modal-content {
+    transform: translateY(0);
+}
+
+.modal-content::after {
+    content: "";
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    border: 1px solid var(--gold-accent);
+    opacity: 0.2;
+    pointer-events: none;
+}
+
+.close-modal {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    line-height: 1;
+    color: var(--sage-main);
+    cursor: pointer;
+    z-index: 10;
+    padding: 5px;
+}
+
+.info-label {
+    font-size: 0.65rem;
+    color: var(--gold-accent);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.info-data {
+    font-size: clamp(1rem, 4vw, 1.2rem);
+    color: var(--text-main);
+    margin-bottom: 20px;
+    font-weight: 300;
+    word-break: break-word;
+    /* Evita que el CBU rompa el layout */
+}
+
+.thanks-msg {
+    font-family: 'Great Vibes', cursive;
+    font-size: clamp(1.8rem, 8vw, 2.2rem);
+    color: var(--sage-light);
+    margin-top: 20px;
+}
+
+/* Ajustes específicos para pantallas muy pequeñas */
+@media (max-width: 425px) {
+    .gifts-card {
+        padding: 30px 15px;
+    }
+
+    h2 {
+        font-size: 2.2rem;
+    }
 }
